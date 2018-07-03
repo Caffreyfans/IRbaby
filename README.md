@@ -9,4 +9,4 @@
 - [ ] 手机端app
 ---
 ## 流程图
-![流程图](https://www.caffreyfans.top/src/Irext/irext_theory.jpg)
+![流程图](https://www.caffreyfans.top/src/Irext/irext_theory.svg)
