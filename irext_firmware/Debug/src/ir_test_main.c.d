@@ -1,0 +1,24 @@
+C:\Users\89339\AppData\Local\Temp\VMBuilds\irext_firmware\esp8266_nodemcuv2\Debug\src\ir_test_main.c.o: \
+ C:\Users\89339\AppData\Local\Temp\VMBuilds\irext_firmware\esp8266_nodemcuv2\Debug\src\ir_test_main.c \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/stdio.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/_ansi.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/newlib.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/sys/config.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/machine/ieeefp.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/sys/features.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/xtensa/config/core-isa.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/sys/cdefs.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/machine/_default_types.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/sys/reent.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/_ansi.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/sys/_types.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/machine/_types.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/sys/lock.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/sys/types.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/machine/types.h \
+ C:\Users\89339\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.4.1/tools/sdk/libc/xtensa-lx106-elf/include/sys/stdio.h \
+ C:\Users\89339\AppData\Local\Temp\VMBuilds\irext_firmware\esp8266_nodemcuv2\Debug\src\../include/ir_defs.h \
+ C:\Users\89339\AppData\Local\Temp\VMBuilds\irext_firmware\esp8266_nodemcuv2\Debug\src\../include/ir_decode.h \
+ C:\Users\89339\AppData\Local\Temp\VMBuilds\irext_firmware\esp8266_nodemcuv2\Debug\src\../include/ir_defs.h \
+ C:\Users\89339\AppData\Local\Temp\VMBuilds\irext_firmware\esp8266_nodemcuv2\Debug\src\../include/ir_ac_control.h \
+ C:\Users\89339\AppData\Local\Temp\VMBuilds\irext_firmware\esp8266_nodemcuv2\Debug\src\../include/ir_tv_control.h
