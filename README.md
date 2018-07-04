@@ -8,5 +8,5 @@
 - [ ] ESP上固件
 - [ ] 手机端app
 ---
-## 流程图
-![流程图](https://www.caffreyfans.top/src/Irext/irext_theory.svg)
+## 功能原理流程图
+![功能原理流程图](https://www.caffreyfans.top/src/Irext/irext_theory.svg)
