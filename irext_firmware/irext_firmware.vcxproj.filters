@@ -21,9 +21,6 @@
     <ClInclude Include="__vm\.irext_firmware.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ir_ac_apply.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -57,11 +54,6 @@
     <ClInclude Include="include\ir_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="irext_firmware2.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ir_ac_apply.c">

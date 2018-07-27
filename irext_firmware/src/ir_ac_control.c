@@ -43,8 +43,7 @@ static INT8 ir_context_init()
 INT8 ir_ac_lib_parse()
 {
     UINT8 i = 0;
-    // suggest not to call init function here for de-couple purpose
-    ir_context_init();
+    // suggest not to call init function here for de-couple ();
 
     if (IR_DECODE_FAILED == binary_parse_offset())
     {
