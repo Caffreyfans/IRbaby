@@ -41,4 +41,10 @@ extern INT8 parse_bit_num(struct tag_head *tag);
 }
 #endif
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
 #endif // _IRDA_PARSE_FRAME_PARAMETER_H_

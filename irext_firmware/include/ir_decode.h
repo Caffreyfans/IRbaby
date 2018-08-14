@@ -11,7 +11,7 @@ Revision log:
 
 #ifndef _IRDA_DECODE_H_
 #define _IRDA_DECODE_H_
-
+#define USE_DYNAMIC_TAG
 #ifdef __cplusplus
 extern "C"
 {

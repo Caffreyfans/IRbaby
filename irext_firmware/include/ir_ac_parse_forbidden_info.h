@@ -25,5 +25,11 @@ extern INT8 parse_nmode(struct tag_head *tag, t_ac_n_mode index);
 }
 #endif
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
 #endif // _IRDA_PARSE_PARSE_H_
 

@@ -55,4 +55,10 @@ extern INT8 parse_solo_code(struct tag_head *tag, t_solo_code *sc);
 }
 #endif
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
 #endif // _IRDA_PARSE_AC_PARAMETER_H_

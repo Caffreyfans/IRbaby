@@ -31,29 +31,15 @@ extern "C"
 
 #define FORMAT_HEX 16
 #define FORMAT_DECIMAL 10
-	
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-typedef int BOOL;
 typedef unsigned char UINT8;
 typedef signed char INT8;
 typedef unsigned short UINT16;
 typedef signed short INT16;
 typedef signed int INT;
 typedef unsigned int UINT;
+typedef int BOOL;
 
 void noprint(const char *fmt, ...);
 
@@ -78,4 +64,6 @@ void noprint(const char *fmt, ...);
 #ifdef __cplusplus
 }
 #endif
+
+
 #endif //PARSE_IR_DEFS_H

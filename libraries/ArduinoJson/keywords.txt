@@ -1,0 +1,17 @@
+add	KEYWORD2
+as	KEYWORD2
+createNestedArray	KEYWORD2
+createNestedObject	KEYWORD2
+deserializeJson	KEYWORD2
+deserializeMsgPack	KEYWORD2
+DynamicJsonDocument	KEYWORD1
+get	KEYWORD2
+JsonArray	KEYWORD1
+JsonObject	KEYWORD1
+JsonVariant	KEYWORD1
+serializeMsgPack	KEYWORD2
+serializeJson	KEYWORD2
+serializeJsonPretty	KEYWORD2
+set	KEYWORD2
+StaticJsonDocument	KEYWORD1
+to	KEYWORD2

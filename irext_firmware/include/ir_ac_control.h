@@ -436,4 +436,5 @@ extern BOOL is_solo_function(UINT8 function_code);
 }
 #endif
 
+
 #endif //IRDA_DECODER_IR_AC_CONTROL_H

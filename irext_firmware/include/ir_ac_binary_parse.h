@@ -31,5 +31,10 @@ extern INT8 binary_parse_data();
 }
 #endif
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "arduino.h"
+#else
+#include "WProgram.h"
+#endif
 
 #endif //IRDA_DECODER_IR_AC_BINARY_PARSE_H

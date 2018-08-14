@@ -40,4 +40,10 @@ INT8 apply_checksum(struct ac_protocol *protocol);
 }
 #endif
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
 #endif //_IRDA_APPLY_H_

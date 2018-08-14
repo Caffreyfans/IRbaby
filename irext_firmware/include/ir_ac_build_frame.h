@@ -25,4 +25,10 @@ extern UINT16 create_ir_frame();
 }
 #endif
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
 #endif // _IRDA_IRFRAME_H_

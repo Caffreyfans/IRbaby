@@ -33,4 +33,11 @@ extern void hex_byte_to_double_char(char *dest, UINT8 length, UINT8 src);
 #ifdef __cplusplus
 }
 #endif
+
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "arduino.h"
+#else
+#include "WProgram.h"
+#endif
+
 #endif // _IRDA_UTILS_H_
