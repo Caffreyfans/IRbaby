@@ -25,6 +25,7 @@ Author:     Caffreyfans
 #define SERIAL_DEBUG Serial
 #define IR_LED D5	//默认红外发射引脚
 #define TRY_COUNT 5
+#define UDP_PORT 8000
 
 char buffUDP[MAX_PACKETSIZE];
 WiFiUDP udp;
@@ -34,12 +35,12 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 UINT16 user_data[USER_DATA_SIZE];
 IRsend irsend(IR_LED);
-
+String index_id;
 // 测试数据
-const char* mqttServer = "caffreyfans.top";
-const int mqttPort = 1883;
-const char* mqttUser = "mqtt";
-const char* mqttPassword = "mqtt";
+char* mqttServer = "";
+int mqttPort = 1883;
+char* mqttUser = "";
+char* mqttPassword = "";
 
 static t_remote_ac_status ac_status =
 {
@@ -49,7 +50,7 @@ static t_remote_ac_status ac_status =
 	AC_MODE_COOL,
 	AC_SWING_ON,
 	AC_WS_AUTO,
-	0,
+	1,
 	0,
 	0
 };
@@ -79,26 +80,17 @@ boolean doUDPServerTick();
 
 
 /**
-说明：账号登录
-返回值：成功返回true, 否则返回false
+说明：获取下载列表
 */
-boolean appLogin();
-
-
-/**
-说明：获取遥控码列表
-返回值：成功返回true, 失败返回false
-*/
-boolean getList(JsonObject& json_object);
-
-
+boolean getList(String msg);
 
 /**
 说明：下载文件
 参数：文件id
 返回值：成功返回true, 否则返回false
 */
-boolean downloadFile(int index_id);
+boolean downLoadFile(int index_id);
+
 
 
 /**
@@ -106,7 +98,7 @@ boolean downloadFile(int index_id);
 参数：文件路径
 返回值：成功返回1， 失败返回0
 */
-int showFileData(const char* filename);
+int showFileData(String filename);
 
 
 /**
@@ -120,7 +112,7 @@ void showMemoryInfo();
 参数：
 返回值：成功返回true, 失败返回false
 */
-boolean sendIR(const char* filename);
+boolean sendIR(String filename);
 
 
 /**
@@ -135,7 +127,7 @@ void setup()
 {
 	SERIAL_DEBUG.begin(115200);
 	SERIAL_DEBUG.println("Start module");
-	WiFi.mode(WIFI_STA); 
+	WiFi.mode(WIFI_STA);
 	WiFi.beginSmartConfig();
 	//WiFi.begin(ssid);
 	SERIAL_DEBUG.println("\nConnecting to WiFi");
@@ -151,7 +143,7 @@ void setup()
 		}
 	}
 	SPIFFS.begin();
-	startUDPServer(8000);
+	startUDPServer(UDP_PORT);
 	irsend.begin();
 
 	client.setServer(mqttServer, mqttPort);
@@ -173,9 +165,14 @@ void setup()
 
 		}
 	}
-	client.publish("esp/test", "Hello from ESP8266");
-	client.subscribe("esp/test");
 
+	client.subscribe("#");
+
+	if (SPIFFS.exists("index_id")) {
+		File f = SPIFFS.open("index_id", "r");
+		index_id = f.readString();
+		SERIAL_DEBUG.printf("get the index = %s", index_id.c_str());
+	}
 
 }
 
@@ -187,28 +184,24 @@ void loop() {
 	if (doUDPServerTick() == true) {
 		String msg = buffUDP;
 		SERIAL_DEBUG.println(msg);
-		int index_id = msg.toInt();
-
-		if (msg.equals("ir") == true) {
-			sendIR("/download.bin");
-		}
-		else if (index_id > 0 && index_id < 100000) {
-			for (int i = 0; i < TRY_COUNT; i++) {
-				if (downloadFile(index_id) == true)	break;
+		int i = msg.toInt();
+		if (i > 0 && i < 10000) {
+			index_id = String(i);
+			File f = SPIFFS.open("index_id", "w");
+			if (f) {
+				f.println(index_id);
+				SERIAL_DEBUG.printf("save the index_id %s\n", index_id.c_str());
 			}
+			f.close();
 		}
-		else if (msg.equals("data")) {
-			showFileData("/download.bin");
-		}
-		else if (msg.equals("info")) {
-			showMemoryInfo();
+		else if (msg.equals("send")) {
+			sendIR(index_id);
 		}
 		else {
-			JsonObject& messageJson = jsonBuffer.parseObject(msg);
-			getList(messageJson);
-		}
+			getList(msg);
+		}	
 	}
-	delay(10);
+	delay(5);
 }
 
 
@@ -222,7 +215,7 @@ uint8_t startUDPServer(uint16 port) {
 
 
 int sendUDP(const char *p) {
-	udp.beginPacket(udp.remoteIP(), udp.remotePort());
+	udp.beginPacket(udp.remoteIP(), UDP_PORT);
 	udp.write(p);
 	return udp.endPacket();
 }
@@ -255,145 +248,107 @@ boolean doUDPServerTick() {
 
 
 
-boolean appLogin() {
-	JsonObject& loginPost = jsonBuffer.createObject();
-	loginPost["appKey"] = "4279187e58326959f1bc047f7900b4ee";
-	loginPost["appSecret"] = "157f29992370f02043aca66893716be9";
-	loginPost["appType"] = "2";
+boolean getList(String msg) {
 
-	HTTPClient http;
-	char body[256];
-	const char* login_url = "http://irext.net/irext-server/app/app_login";
-	SERIAL_DEBUG.println("try to login...");
-	boolean flag = true;
 
-	if (WiFi.status() == WL_CONNECTED) {
-		memset(body, 0x00, sizeof(body));
-		loginPost.printTo(body, sizeof(body));
-		SERIAL_DEBUG.println("Post Message:");
-		SERIAL_DEBUG.println(body);
-		http.begin(login_url);
-		http.addHeader("Content-Type", "application/json");
-		int httpCode = http.POST((uint8_t *)body, strlen(body));
-		SERIAL_DEBUG.printf("[HTTP] POST... Code: %d\n", httpCode);
+	JsonArray& array = jsonBuffer.parseArray(msg);
+	JsonObject& object = jsonBuffer.parseObject(msg);
+	boolean ret = true;
 
-		if (httpCode == HTTP_CODE_OK) {
-			String payload = http.getString();
-			JsonObject& response = jsonBuffer.parseObject(payload);
-			if (response == JsonObject::invalid()) {
-				SERIAL_DEBUG.println("JsonObject invalid");
-				flag = false;
-			}
-			else {
-				int id = response["entity"]["id"];
-				String token = response["entity"]["token"];
-				downloadPost["id"] = id;
-				downloadPost["token"] = token;
-				SERIAL_DEBUG.println("Get the id and token:");
-				SERIAL_DEBUG.println(id);
-				SERIAL_DEBUG.println(token);
-			}
+	if (array.success()) {
+		for (int i = 0; i < array.size(); i++) {
+			int count = 0;
+			do {
+				ret = downLoadFile(array[i]);
+				if (count > TRY_COUNT) {
+					break;
+				}
+				else {
+					count++;
+				}
+			} while (ret == false);
+		}
+
+		if (ret == true) {
+			SERIAL_DEBUG.println("download success");
+			sendUDP("download success");
 		}
 		else {
-			flag = false;
+			SERIAL_DEBUG.println("download failed");
+			sendUDP("download failed");
 		}
 	}
-	else {
-		flag = false;
+
+	if (object.success()) {
+		downloadPost["id"] = object["id"];
+		downloadPost["token"] = object["token"];
+		SERIAL_DEBUG.println("get the id and token");
 	}
-	http.end();
-	return flag;
+	return true;
 }
 
 
-boolean getList(JsonObject& json_object) {
-	const char* getlist_url = "http://irext.net/irext-server/indexing/list_indexes";
-	char body[256];
 
+boolean downLoadFile(int index_id) {
 
-	if (WiFi.status() == WL_CONNECTED) {
-		//while (appLogin() != true) {
-		//	delay(10);
-		//}
-		//json_object["id"] = downloadPost["id"];
-		//json_object["token"] = downloadPost["token"];
-		HTTPClient http;
-		http.begin(getlist_url);
-		http.addHeader("Content-Type", "application/json");
-		memset(body, 0x00, sizeof(body));
-		json_object.printTo(body, sizeof(body));
-		int http_code = http.POST((uint8_t *)body, strlen(body));
-		String payload = http.getString();
-		SERIAL_DEBUG.println(payload);
-
-		if (http_code == HTTP_CODE_OK) {
-			JsonObject& json_object = jsonBuffer.parseObject(payload);
-			SERIAL_DEBUG.println(json_object["entity"].size());
-		}
-		else {
-			SERIAL_DEBUG.printf("httpCode = %d\n", http_code);
-			
-		}
-		http.end();
-	}
-	else {
-		return false;
-	}
-}
-
-
-boolean downloadFile(int index_id) {
 	HTTPClient http;
-	char body[256];
 	const char* download_url = "http://irext.net/irext-server/operation/download_bin";
-	SERIAL_DEBUG.printf("try to download indexId: %d\n", index_id);
+	boolean flag = false;
 
 	if (WiFi.status() == WL_CONNECTED) {
-
-		if (appLogin() != true) {
-			return false;
-		}
 
 		// Prepare cache file
 		String filename = String(index_id);
+		if (SPIFFS.exists(filename)) {
+			SERIAL_DEBUG.println("already have file");
+			return true;
+		}
 		File cache = SPIFFS.open(filename, "w");
 		File* filestream = &cache;
 		if (!cache) {
 			SERIAL_DEBUG.println("Could not create cache file");
 			return false;
 		}
-		SERIAL_DEBUG.println("Open download.bin right");
-		downloadPost["indexId"] = index_id;
-		memset(body, 0x00, sizeof(body));
-		downloadPost.printTo(body, sizeof(body));
+		else {
+			int httpCode = 0;
+			downloadPost["indexId"] = index_id;
+			String tmp;
+			downloadPost.printTo(tmp);
 
-		http.begin(download_url);
-		http.addHeader("Content-Type", "application/json");
-		int httpCode = http.POST((uint8_t *)body, strlen(body));
-		SERIAL_DEBUG.println("Try to post:");
-		SERIAL_DEBUG.println(body);
-		SERIAL_DEBUG.print("[HTTP] POST return code: ");
-		SERIAL_DEBUG.println(httpCode);
-		http.writeToStream(filestream);
-		cache.close();
-		http.end();
-		return true;
+			http.begin(download_url);
+			http.addHeader("Content-Type", "application/json");
+			httpCode = http.POST(tmp);
+
+
+			SERIAL_DEBUG.print("[HTTP] POST return code: ");
+			SERIAL_DEBUG.println(httpCode);
+
+			if (httpCode == HTTP_CODE_OK) {
+				http.writeToStream(filestream);
+				SERIAL_DEBUG.printf("download %s ok\n", filename.c_str());
+				flag = true;
+			}
+			else {
+				SPIFFS.remove(filename);
+			}
+			cache.close();
+			http.end();
+			delay(10);
+		}
 	}
 	else {
 		SERIAL_DEBUG.println("Error in WiFi connection");
-		return false;
 	}
+	return flag;
 }
 
-
-
-int showFileData(const char* filename) {
+int showFileData(String filename) {
 
 	if (SPIFFS.exists(filename)) {
 		File f = SPIFFS.open(filename, "r");
 		int s = f.size();
 		String data = f.readString();
-		SERIAL_DEBUG.printf("open \"%s\" right the Size = %d\n", filename, s);
+		SERIAL_DEBUG.printf("open \"%s\" right the Size = %d\n", filename.c_str(), s);
 		SERIAL_DEBUG.println("\n************* data of file: *************");
 		SERIAL_DEBUG.println(data);
 		SERIAL_DEBUG.println("*************  end of data  **************\n");
@@ -402,7 +357,7 @@ int showFileData(const char* filename) {
 		return s;
 	}
 	else {
-		SERIAL_DEBUG.println("download.bin is not exsited");
+		SERIAL_DEBUG.printf("%s is not exsited", filename.c_str());
 		return 0;
 	}
 }
@@ -424,12 +379,15 @@ void showMemoryInfo() {
 
 
 
-boolean sendIR(const char* filename) {
+boolean sendIR(String filename) {
 	if (SPIFFS.exists(filename)) {
 		File f = SPIFFS.open(filename, "r");
 		File *fp = &f;
 		if (f) {
 			UINT16 content_length = f.size();
+			if (content_length == 0) {
+				return false;
+			}
 			SERIAL_DEBUG.printf("content_length = %d\n", content_length);
 			UINT8 *content = (UINT8 *)malloc(content_length * sizeof(UINT8));
 			f.seek(0L, fs::SeekSet);
@@ -441,16 +399,18 @@ boolean sendIR(const char* filename) {
 			}
 			irsend.sendRaw(user_data, length, 38);
 			ir_close();
+			return true;
 		}
 		else {
-			SERIAL_DEBUG.printf("open %s was failed\n", filename);
+			SERIAL_DEBUG.printf("open %s was failed\n", filename.c_str());
+			return false;
 		}
 		f.close();
 	}
 	else {
-		SERIAL_DEBUG.printf("%s is not exsits\n", filename);
+		SERIAL_DEBUG.printf("%s is not exsits\n", filename.c_str());
+		return false;
 	}
-
 }
 
 
@@ -466,5 +426,55 @@ void callback(char* topic, byte* payload, unsigned int length) {
 	}
 	Serial.println(str);
 	Serial.println("-----------------------");
+
+	if (strcmp(topic, "study/ac/mode/set") == 0 && str.equals("False")) {
+		ac_status.ac_power = AC_POWER_OFF;
+	}
+	else {
+		ac_status.ac_power = AC_POWER_ON;
+	}
+
+	if (strcmp(topic, "study/ac/temperature/set") == 0) {
+		
+		int tmp = str.toInt();
+		t_ac_temperature temp = (t_ac_temperature)(tmp - 16);
+		ac_status.ac_temp = temp;
+	}
+
+	else if (strcmp(topic, "study/ac/mode/set") == 0) {
+
+		if (str.equals("auto"))
+			ac_status.ac_mode = AC_MODE_AUTO;
+		if (str.equals("cool"))
+			ac_status.ac_mode = AC_MODE_COOL;
+		if (str.equals("heat"))
+			ac_status.ac_mode = AC_MODE_HEAT;
+		if (str.equals("dry"))
+			ac_status.ac_mode = AC_MODE_DRY;
+		if (str.equals("fan"))
+			ac_status.ac_mode = AC_MODE_FAN;
+	}
+
+	else if (strcmp(topic, "study/ac/swing/set") == 0) {
+
+		if (str.equals("False"))
+			ac_status.ac_wind_dir = AC_SWING_OFF;
+		if (str.equals("True"))
+			ac_status.ac_wind_dir = AC_SWING_ON;
+	}
+
+	else if (strcmp(topic, "study/ac/fan/set")) {
+
+		if (str.equals("auto"))
+			ac_status.ac_wind_speed = AC_WS_AUTO;
+		if (str.equals("high"))
+			ac_status.ac_wind_speed = AC_WS_HIGH;
+		if (str.equals("medium"))
+			ac_status.ac_wind_speed = AC_WS_MEDIUM;
+		if (str.equals("low"))
+			ac_status.ac_wind_speed = AC_WS_LOW;
+	}
+
+	sendIR(index_id);
 
 }

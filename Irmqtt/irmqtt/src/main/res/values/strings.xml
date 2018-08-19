@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">requestexample</string>
+    <string name="parse_device">匹配设备</string>
+    <string name="connect_wifi">ESP配网</string>
+    <string name="app_about">关于</string>
+    <string name="mqtt_config">MQTT设置</string>
+    <string name="mqtt_host">Host:</string>
+    <string name="mqtt_port">Port:</string>
+    <string name="mqtt_user">User:</string>
+    <string name="mqtt_password">Password</string>
+</resources>
