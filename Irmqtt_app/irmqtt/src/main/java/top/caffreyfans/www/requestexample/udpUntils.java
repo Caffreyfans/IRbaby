@@ -31,8 +31,8 @@ public class udpUntils {
         }
     }
 
-    public void umpReceive(){
-
+    public String umpReceive(){
+        String str = null;
         DatagramSocket ds = null;
         int data_length = 0;
         try {
@@ -48,13 +48,16 @@ public class udpUntils {
                 ds.receive(dp);
                 data_length = dp.getLength();
                 if (data_length != 0){
-                    String str = new String(dp.getData(), 0, dp.getLength());
-                    Log.i("udp:", str);
+                    str = new String(dp.getData(), 0, dp.getLength());
+                    Log.i("esp8266:", str);
                 }
             } catch (IOException e){
                 e.printStackTrace();
             }
         }
+        ds.close();
+        return str;
     }
+
 
 }

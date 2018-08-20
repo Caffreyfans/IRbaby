@@ -135,11 +135,15 @@ public class detailActivity extends AppCompatActivity {
                             progressDialog.setMessage("等待ESP下载文件");
                             progressDialog.show();
                             progressDialog.setCancelable(false);
+
+                            final JSONArray jsonArray = new JSONArray(list);
+                            final JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("list", jsonArray);
                             // 发送 index_id List 到ESP
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    udpUntils.sendMessage(list.toString());
+                                    udpUntils.sendMessage(jsonObject.toString());
                                     udpUntils.umpReceive();
                                     handler.sendEmptyMessage(0);
 

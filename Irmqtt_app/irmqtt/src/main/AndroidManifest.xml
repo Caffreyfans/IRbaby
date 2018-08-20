@@ -27,7 +27,8 @@
         <activity android:name=".detailActivity" />
         <activity android:name=".OnoffActivity" />
         <activity android:name=".mqttConfig" />
-        <activity android:name=".appAbout"></activity>
+        <activity android:name=".appAbout" />
+        <activity android:name=".setPin"></activity>
     </application>
 
 </manifest>

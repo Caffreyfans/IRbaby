@@ -88,10 +88,16 @@ public class Irext {
         this.postMessage(url, jsonObject);
         jsonObject.remove("from");
         jsonObject.remove("count");
+        final JSONObject json_object = new JSONObject();
+        try {
+            json_object.put("auth", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
-                udpUntils.sendMessage(jsonObject.toString());
+                udpUntils.sendMessage(json_object.toString());
             }
         }).start();
     } // End of getApplianceTypes

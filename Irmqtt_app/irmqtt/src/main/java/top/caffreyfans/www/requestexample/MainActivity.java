@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
     private Button parseDeviceBtn;
     private Button mqttConfigBtn;
     private Button appAboutBtn;
+    private Button setPinBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,8 @@ public class MainActivity extends Activity {
         connectWiFiBtn = (Button) findViewById(R.id.connectWiFiBtn);
         mqttConfigBtn = (Button) findViewById(R.id.mqttConfigBtn);
         appAboutBtn = (Button) findViewById(R.id.appAboutBtn);
+        setPinBtn = (Button) findViewById(R.id.setPinBtn);
+
         Gobal.Irext = new Irext(getApplicationContext());
         Gobal.Irext.appLogin();
 
@@ -56,10 +59,18 @@ public class MainActivity extends Activity {
             }
         });
 
+        setPinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), setPin.class);
+                startActivity(intent);
+            }
+        });
         appAboutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), appAbout.class);
+                startActivity(intent);
             }
         });
     }

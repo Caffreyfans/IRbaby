@@ -56,6 +56,7 @@
                 android:layout_marginLeft="5dp"
                 android:inputType="number"
                 android:singleLine="true"
+                android:text="1883"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
@@ -104,12 +105,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/confirm" />
-
-        <TextView
-            android:id="@+id/configInfoTV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="16sp" />
 
     </LinearLayout>
 

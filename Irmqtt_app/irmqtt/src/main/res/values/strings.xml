@@ -1,11 +1,45 @@
 <resources>
-    <string name="app_name">requestexample</string>
+    <string name="app_name">Irmqtt</string>
     <string name="parse_device">匹配设备</string>
     <string name="connect_wifi">ESP配网</string>
+    <string name="set_pin">设置引脚</string>
     <string name="app_about">关于</string>
     <string name="mqtt_config">MQTT设置</string>
     <string name="mqtt_host">Host:</string>
     <string name="mqtt_port">Port:</string>
     <string name="mqtt_user">User:</string>
     <string name="mqtt_password">Password</string>
+    <string name="sure">确定</string>
+    <string name="pin">引脚:</string>
+    <string name="_14">14</string>
+    <string name="pin_about">此图为NODEMCU1.0引脚图\n关于发射引脚的定义:\n应选择GPIO引脚，如gpio14(D5) 那么就填14。然后红外二级管输入端接gpio14, 输出端接地就行了。</string>
+    <string name="mqtt_topic">
+        - platform: mqtt\n
+          name: Study\n
+          modes:\n
+            - cool\n
+            - heat\n
+            - auto\n
+            - fan\n
+            - dry\n
+            - off\n
+          swing_modes:\n
+            - on\n
+            - off\n
+          fan_modes:\n
+            - high\n
+            - medium\n
+            - low\n
+            - auto\n
+          power_command_topic: "irmqtt/ac/power/set"\n
+          mode_command_topic: "irmqtt/ac/mode/set"\n
+          temperature_command_topic: "irmqtt/ac/temperature/set"\n
+          fan_mode_command_topic: "irmqtt/ac/fan/set"\n
+          swing_mode_command_topic: "irmqtt/ac/swing/set"\n
+          min_temp: 16\n
+          max_temp: 30\n\n\n
+        除了修改name, 其余不应改变的复制到homeassistant的配置文件中，例子格式存在错误，请参照homeassistant中的MQTT/AC例子。\n\n
+        APP存在BUG,所以确保ESP已联网再执行后续操作\n\n
+        界面太丑，交互能力差，后期优化，优化~~~
+    </string>
 </resources>

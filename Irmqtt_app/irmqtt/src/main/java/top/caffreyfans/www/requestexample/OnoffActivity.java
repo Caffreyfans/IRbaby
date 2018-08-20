@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class OnoffActivity extends AppCompatActivity {
     private Button switchOnBtn;
     private Button irSendBtn;
@@ -18,6 +21,12 @@ public class OnoffActivity extends AppCompatActivity {
         irSendBtn = (Button) findViewById(R.id.irSendBtn);
         Intent in = (Intent) getIntent();
         final int index_id = in.getIntExtra("Irext.id", -1);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("use_file", index_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         udpUntils = new udpUntils();
 
         switchOnBtn.setOnClickListener(new View.OnClickListener() {
@@ -26,17 +35,27 @@ public class OnoffActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        udpUntils.sendMessage(String.valueOf(index_id));
+                        udpUntils.sendMessage(jsonObject.toString());
                     }
                 }).start();
             }
         });
 
-
+        final JSONObject jsonObject1 = new JSONObject();
+        try {
+            jsonObject1.put("cmd", "ir");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         irSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        udpUntils.sendMessage(jsonObject1.toString());
+                    }
+                }).start();
             }
         });
     }

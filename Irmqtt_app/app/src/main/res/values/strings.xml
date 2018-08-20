@@ -8,4 +8,7 @@
     <string name="device_count_title">Device count: </string>
     <string name="confirm">Confirm</string>
     <string name="wifi_5g_message">Device dose not support 5G Wifi</string>
+    <string name="connect_about">配网说明：\n
+        1. 之前确认手机已连入 2.4G Wifi, 不支持 5G 信号\n
+        2. 确认模块进入配网模式，重启模块进入\n</string>
 </resources>
