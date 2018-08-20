@@ -57,6 +57,9 @@
     <ClInclude Include="__vm\.irext_firmware.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="__vm\.Irmqtt_firmware.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ir_ac_build_frame.cpp">

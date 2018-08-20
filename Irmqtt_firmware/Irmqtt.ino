@@ -23,29 +23,22 @@ Author:     Caffreyfans
 //
 #define MAX_PACKETSIZE 512 //UDP包大小
 #define SERIAL_DEBUG Serial
-#define IR_LED D5	//默认红外发射引脚
 #define TRY_COUNT 5
 #define UDP_PORT 8000
+#define USER_DATA_SIZE 1024
 
 char buffUDP[MAX_PACKETSIZE];
 WiFiUDP udp;
 DynamicJsonBuffer jsonBuffer;
-JsonObject& downloadPost = jsonBuffer.createObject();
+JsonObject& settings_json = jsonBuffer.createObject();
 WiFiClient espClient;
 PubSubClient client(espClient);
 UINT16 user_data[USER_DATA_SIZE];
-IRsend irsend(IR_LED);
-String index_id;
-// 测试数据
-char* mqttServer = "";
-int mqttPort = 1883;
-char* mqttUser = "";
-char* mqttPassword = "";
 
 static t_remote_ac_status ac_status =
 {
 	// 默认空调状态
-	AC_POWER_OFF,
+	AC_POWER_ON,
 	AC_TEMP_24,
 	AC_MODE_COOL,
 	AC_SWING_ON,
@@ -54,6 +47,7 @@ static t_remote_ac_status ac_status =
 	0,
 	0
 };
+
 
 
 /**
@@ -82,7 +76,7 @@ boolean doUDPServerTick();
 /**
 说明：获取下载列表
 */
-boolean getList(String msg);
+boolean getList();
 
 /**
 说明：下载文件
@@ -94,25 +88,19 @@ boolean downLoadFile(int index_id);
 
 
 /**
-说明：显示文件内容
-参数：文件路径
-返回值：成功返回1， 失败返回0
-*/
-int showFileData(String filename);
-
-
-/**
-说明：显示内存信息
-*/
-void showMemoryInfo();
-
-
-/**
 说明：发射红外信号
 参数：
 返回值：成功返回true, 失败返回false
 */
-boolean sendIR(String filename);
+boolean sendIR();
+
+
+/**
+说明：连接mqtt服务器
+参数：JsonObject 对象（host, port, user, password)
+返回值：成功返回true, 失败返回false
+*/
+boolean connectMqtt();
 
 
 /**
@@ -122,11 +110,37 @@ boolean sendIR(String filename);
 void callback(char* topic, byte* payload, unsigned int length);
 
 
-// The setup() function runs once each time the micro-controller starts
+
+/**
+说明：处理UDP报文
+参数：报文内容
+*/
+void disposeUdpMessage(String msg);
+
+
+
+/**
+说明：保存设置
+*/
+boolean saveSettings();
+
+
+/**
+说明：提取设置
+*/
+boolean getSettings();
+
+
+/**
+说明：将字符串转换成对应枚举值
+参数：字符串
+*/
+int coverToEnum(String str, String type);
+
+
 void setup()
 {
 	SERIAL_DEBUG.begin(115200);
-	SERIAL_DEBUG.println("Start module");
 	WiFi.mode(WIFI_STA);
 	WiFi.beginSmartConfig();
 	//WiFi.begin(ssid);
@@ -142,38 +156,16 @@ void setup()
 			break;
 		}
 	}
-	SPIFFS.begin();
 	startUDPServer(UDP_PORT);
-	irsend.begin();
-
-	client.setServer(mqttServer, mqttPort);
-	client.setCallback(callback);
-
-	while (!client.connected()) {
-		Serial.println("Connecting to MQTT...");
-
-		if (client.connect("ESP8266Client", mqttUser, mqttPassword)) {
-
-			Serial.println("connected");
-
-		}
-		else {
-
-			Serial.print("failed with state ");
-			Serial.println(client.state());
-			delay(2000);
-
-		}
+	SPIFFS.begin();
+	settings_json["device_name"] = "irmqtt";
+	settings_json["device_type"] = "ac";
+	if (getSettings() == true) {
+		SERIAL_DEBUG.println("get settings_json");
+		settings_json.printTo(SERIAL_DEBUG);
+		if (settings_json.containsKey("mqtt"))
+			connectMqtt();
 	}
-
-	client.subscribe("#");
-
-	if (SPIFFS.exists("index_id")) {
-		File f = SPIFFS.open("index_id", "r");
-		index_id = f.readString();
-		SERIAL_DEBUG.printf("get the index = %s", index_id.c_str());
-	}
-
 }
 
 // Add the main program code into the continuous loop() function
@@ -184,22 +176,7 @@ void loop() {
 	if (doUDPServerTick() == true) {
 		String msg = buffUDP;
 		SERIAL_DEBUG.println(msg);
-		int i = msg.toInt();
-		if (i > 0 && i < 10000) {
-			index_id = String(i);
-			File f = SPIFFS.open("index_id", "w");
-			if (f) {
-				f.println(index_id);
-				SERIAL_DEBUG.printf("save the index_id %s\n", index_id.c_str());
-			}
-			f.close();
-		}
-		else if (msg.equals("send")) {
-			sendIR(index_id);
-		}
-		else {
-			getList(msg);
-		}	
+		disposeUdpMessage(msg);
 	}
 	delay(5);
 }
@@ -248,46 +225,176 @@ boolean doUDPServerTick() {
 
 
 
-boolean getList(String msg) {
 
 
-	JsonArray& array = jsonBuffer.parseArray(msg);
-	JsonObject& object = jsonBuffer.parseObject(msg);
-	boolean ret = true;
-
-	if (array.success()) {
-		for (int i = 0; i < array.size(); i++) {
-			int count = 0;
-			do {
-				ret = downLoadFile(array[i]);
-				if (count > TRY_COUNT) {
-					break;
-				}
-				else {
-					count++;
-				}
-			} while (ret == false);
+void disposeUdpMessage(String msg) {
+	JsonObject& object = jsonBuffer.parse(msg);
+	if (object.success()) {
+		if (object.containsKey("auth")) {
+			settings_json["download_post"] = object["auth"];
 		}
+		if (object.containsKey("mqtt")) {
+			settings_json["mqtt"] = object["mqtt"];
+			if (connectMqtt() == true) {
+				sendUDP("mqtt connected");
+			}
+			else {
+				sendUDP("timeout");
+			}
+		}
+		if (object.containsKey("list")) {
+			settings_json["list"] = object["list"];
+			if (getList() == true)	sendUDP("get list success");
+			else sendUDP("get list error");
+		}
+		if (object.containsKey("device_type")) {
+			settings_json["device_type"] = object["device_type"];
+		}
+		if (object.containsKey("data_pin")) {
+			settings_json["data_pin"] = object["data_pin"];
+		}
+		if (object.containsKey("use_file")) {
+			settings_json["use_file"] = object["use_file"];
+		}
+		if (object.containsKey("cmd")) {
+			sendIR();
+		}
+		settings_json.printTo(SERIAL_DEBUG);
+		saveSettings();
+	}
+	else {
+		SERIAL_DEBUG.println("parse JsonObject failed");
+	}
+}
 
-		if (ret == true) {
-			SERIAL_DEBUG.println("download success");
-			sendUDP("download success");
+boolean connectMqtt() {
+	
+	const char* host = settings_json["mqtt"]["host"];
+	const int port = settings_json["mqtt"]["port"];
+	const char* user = settings_json["mqtt"]["user"];
+	const char* password = settings_json["mqtt"]["password"];
+	SERIAL_DEBUG.printf("host = %s\n", host);
+	SERIAL_DEBUG.printf("port = %d\n", port);
+	SERIAL_DEBUG.printf("user = %s\n", user);
+	SERIAL_DEBUG.printf("password = %s\n", password);
+	client.setServer(host, port);
+	client.setCallback(callback);
+
+	unsigned long time_start = millis();
+	unsigned long time_end = millis();
+	client.disconnect();
+	while (!client.connected()) {
+		Serial.println("Connecting to MQTT...");
+
+		if (client.connect("ESP8266Client", user, password)) {
+			Serial.println("connected");
 		}
 		else {
-			SERIAL_DEBUG.println("download failed");
-			sendUDP("download failed");
+			Serial.print("failed with state ");
+			Serial.println(client.state());
+			delay(1000);
+		}
+		time_end = millis();
+		if (time_end - time_start > 10000) {
+			SERIAL_DEBUG.println("connect timeout");
+			sendUDP("time out");
+			return false;
 		}
 	}
-
-	if (object.success()) {
-		downloadPost["id"] = object["id"];
-		downloadPost["token"] = object["token"];
-		SERIAL_DEBUG.println("get the id and token");
-	}
+	String device_name = settings_json["device_name"];
+	String device_type = settings_json["device_type"];
+	String topic = String(device_name + "/" + device_type + "/#");
+	client.subscribe(topic.c_str());
+	sendUDP("connected");
 	return true;
 }
 
+void callback(char* topic, byte* payload, unsigned int length) {
+	
+	String cmd = "";
+	for (int i = 0; i < length; i++)
+		cmd += (char)payload[i];
 
+	String topic_str = String(topic);
+	String device_name = settings_json["device_name"];
+	String device_type = settings_json["device_type"];
+	String topic_head = String(device_name + "/" + device_type + "/");
+	String mode_set = String("mode/set");
+	String temperature_set = String("temperature/set");
+	String swing_set = String("swing/set");
+	String speed_set = String("fan/set");
+
+	if ((topic_str == (topic_head + mode_set)) && (cmd == "False")) {
+		ac_status.ac_power = AC_POWER_OFF;
+	}
+	else {
+		ac_status.ac_power = AC_POWER_ON;
+	}
+	if (topic_str == (topic_head + temperature_set)) {
+		int tmp = cmd.toInt();
+		t_ac_temperature temperature = t_ac_temperature(tmp - 16);
+		ac_status.ac_temp = temperature;
+	}
+	if (topic_str == (topic_head + mode_set) && (cmd != "False")) {
+		ac_status.ac_mode = (t_ac_mode)(coverToEnum(cmd, "mode"));
+	}
+	if (topic_str == (topic_head + swing_set)) {
+		ac_status.ac_wind_dir = (t_ac_swing)(coverToEnum(cmd, "swind"));
+	}
+	if (topic_str == (topic_head + speed_set)) {
+		ac_status.ac_wind_speed = (t_ac_wind_speed)(coverToEnum(cmd, "swind_speed"));
+	}
+
+	sendIR();
+	SERIAL_DEBUG.println("***   ac_status   ***");
+	SERIAL_DEBUG.printf("power = %d\n", ac_status.ac_power);
+	SERIAL_DEBUG.printf("temperature = %d\n", ac_status.ac_temp);
+	SERIAL_DEBUG.printf("swing = %d\n", ac_status.ac_wind_dir);
+	SERIAL_DEBUG.printf("speed = %d\n", ac_status.ac_wind_speed);
+	SERIAL_DEBUG.printf("mode = %d\n", ac_status.ac_mode);
+	SERIAL_DEBUG.println("**********************");
+}
+
+int coverToEnum(String str, String type) {
+	String swing_str[] = {"True", "False"};
+	String swing_speed_str[] = { "auto", "low", "medium", "high" };
+	String mode_str[] = { "cool", "heat", "auto", "fan", "dry" };
+	if (type == "mode") 
+		for (int i = 0; i < sizeof(mode_str) / sizeof(mode_str[0]); i++) {
+			if (str == mode_str[i])	return i;
+		}
+	
+	if (type == "swind")
+		for (int i = 0; i < sizeof(swing_str) / sizeof(swing_str[0]); i++) {
+			if (str == swing_str[i])	return i;
+		}
+	if (type == "swind_speed")
+		for (int i = 0; i < sizeof(swing_speed_str) / sizeof(swing_speed_str[0]); i++) {
+			if (str == swing_speed_str[i])	return i;
+		}
+}
+
+boolean getList() {
+	boolean ret = true;
+	for (int i = 0; i < settings_json["list"].size(); i++) {
+		int count = 0;
+		do {
+			ret = downLoadFile(settings_json["list"][i]);
+			if (count > TRY_COUNT)	break;
+			else  count++;
+		} while (ret == false);
+	}
+
+	if (ret == true) {
+		SERIAL_DEBUG.println("download success");
+		sendUDP("download success");
+	}
+	else {
+		SERIAL_DEBUG.println("download failed");
+		sendUDP("download failed");
+	}
+	return ret;
+}
 
 boolean downLoadFile(int index_id) {
 
@@ -311,9 +418,9 @@ boolean downLoadFile(int index_id) {
 		}
 		else {
 			int httpCode = 0;
-			downloadPost["indexId"] = index_id;
+			settings_json["download_post"]["indexId"] = index_id;
 			String tmp;
-			downloadPost.printTo(tmp);
+			settings_json["download_post"].printTo(tmp);
 
 			http.begin(download_url);
 			http.addHeader("Content-Type", "application/json");
@@ -342,44 +449,13 @@ boolean downLoadFile(int index_id) {
 	return flag;
 }
 
-int showFileData(String filename) {
+boolean sendIR() {
 
-	if (SPIFFS.exists(filename)) {
-		File f = SPIFFS.open(filename, "r");
-		int s = f.size();
-		String data = f.readString();
-		SERIAL_DEBUG.printf("open \"%s\" right the Size = %d\n", filename.c_str(), s);
-		SERIAL_DEBUG.println("\n************* data of file: *************");
-		SERIAL_DEBUG.println(data);
-		SERIAL_DEBUG.println("*************  end of data  **************\n");
-		f.close();
-
-		return s;
-	}
-	else {
-		SERIAL_DEBUG.printf("%s is not exsited", filename.c_str());
-		return 0;
-	}
-}
-
-
-
-void showMemoryInfo() {
-	FSInfo fs_info;
-	SPIFFS.info(fs_info);
-	SERIAL_DEBUG.println("\n************* Borad Info *************");
-	SERIAL_DEBUG.printf("totalBytes: %d\n", fs_info.totalBytes);
-	SERIAL_DEBUG.printf("usedBytes: %d\n", fs_info.usedBytes);
-	SERIAL_DEBUG.printf("blockSize: %d\n", fs_info.blockSize);
-	SERIAL_DEBUG.printf("pageSize: %d\n", fs_info.pageSize);
-	SERIAL_DEBUG.printf("maxOpenFiles: %d\n", fs_info.maxOpenFiles);
-	SERIAL_DEBUG.printf("maxPathLength: %d\n", fs_info.maxPathLength);
-	SERIAL_DEBUG.println("************* End Of Info ************\n");
-}
-
-
-
-boolean sendIR(String filename) {
+	String filename = settings_json["use_file"];
+	String tmp = settings_json["data_pin"];
+	int data_pin = tmp.toInt();
+	IRsend irsend = IRsend(data_pin);
+	irsend.begin();
 	if (SPIFFS.exists(filename)) {
 		File f = SPIFFS.open(filename, "r");
 		File *fp = &f;
@@ -394,9 +470,11 @@ boolean sendIR(String filename) {
 			f.readBytes((char*)content, content_length);
 			INT8 ret = ir_binary_open(IR_CATEGORY_AC, 1, content, content_length);
 			int length = ir_decode(2, user_data, &ac_status, 0);
+			SERIAL_DEBUG.println();
 			for (int i = 0; i < length; i++) {
 				Serial.printf("%d ", user_data[i]);
 			}
+			SERIAL_DEBUG.println();
 			irsend.sendRaw(user_data, length, 38);
 			ir_close();
 			return true;
@@ -413,68 +491,36 @@ boolean sendIR(String filename) {
 	}
 }
 
-
-
-void callback(char* topic, byte* payload, unsigned int length) {
-
-	Serial.print("Message arrived in topic: ");
-	Serial.println(topic);
-	Serial.print("Message:");
-	String str = "";
-	for (int i = 0; i < length; i++) {
-		str += (char)payload[i];
-	}
-	Serial.println(str);
-	Serial.println("-----------------------");
-
-	if (strcmp(topic, "study/ac/mode/set") == 0 && str.equals("False")) {
-		ac_status.ac_power = AC_POWER_OFF;
+boolean saveSettings() {
+	File cache = SPIFFS.open("settings", "w");
+	Stream* file_stream = &cache;
+	if (cache) {
+		String tmp;
+		settings_json.printTo(tmp);
+		cache.println(tmp);
 	}
 	else {
-		ac_status.ac_power = AC_POWER_ON;
+		SERIAL_DEBUG.println("can't open settings");
+		return false;
 	}
+	cache.close();
+	return true;
+}
 
-	if (strcmp(topic, "study/ac/temperature/set") == 0) {
-		
-		int tmp = str.toInt();
-		t_ac_temperature temp = (t_ac_temperature)(tmp - 16);
-		ac_status.ac_temp = temp;
+boolean getSettings() {
+	File cache = SPIFFS.open("settings", "r");
+	if (cache) {
+		String tmp = cache.readString();
+		JsonObject& json_object = jsonBuffer.parseObject(tmp);
+		JsonObject::iterator it;
+		for (it = json_object.begin(); it != json_object.end(); ++it) {
+			settings_json[it->key] = json_object[it->key];
+		}
 	}
-
-	else if (strcmp(topic, "study/ac/mode/set") == 0) {
-
-		if (str.equals("auto"))
-			ac_status.ac_mode = AC_MODE_AUTO;
-		if (str.equals("cool"))
-			ac_status.ac_mode = AC_MODE_COOL;
-		if (str.equals("heat"))
-			ac_status.ac_mode = AC_MODE_HEAT;
-		if (str.equals("dry"))
-			ac_status.ac_mode = AC_MODE_DRY;
-		if (str.equals("fan"))
-			ac_status.ac_mode = AC_MODE_FAN;
+	else {
+		SERIAL_DEBUG.println("settings is not exits");
+		return false;
 	}
-
-	else if (strcmp(topic, "study/ac/swing/set") == 0) {
-
-		if (str.equals("False"))
-			ac_status.ac_wind_dir = AC_SWING_OFF;
-		if (str.equals("True"))
-			ac_status.ac_wind_dir = AC_SWING_ON;
-	}
-
-	else if (strcmp(topic, "study/ac/fan/set")) {
-
-		if (str.equals("auto"))
-			ac_status.ac_wind_speed = AC_WS_AUTO;
-		if (str.equals("high"))
-			ac_status.ac_wind_speed = AC_WS_HIGH;
-		if (str.equals("medium"))
-			ac_status.ac_wind_speed = AC_WS_MEDIUM;
-		if (str.equals("low"))
-			ac_status.ac_wind_speed = AC_WS_LOW;
-	}
-
-	sendIR(index_id);
-
+	cache.close();
+	return true;
 }
