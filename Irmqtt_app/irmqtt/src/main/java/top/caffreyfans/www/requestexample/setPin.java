@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 public class setPin extends AppCompatActivity {
     private Button setPinBtn;
-    private udpUntils udpUntils;
     private EditText set_pin;
 
     @Override
@@ -20,7 +19,6 @@ public class setPin extends AppCompatActivity {
         setContentView(R.layout.activity_set_pin);
         setPinBtn = (Button) findViewById(R.id.setPinBtn);
         set_pin = (EditText) findViewById(R.id.setPinET);
-        udpUntils = new udpUntils();
 
         setPinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,7 +32,7 @@ public class setPin extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        udpUntils.sendMessage(jsonObject.toString());
+                        Gobal.udpUtils.sendMessage(jsonObject.toString());
                     }
                 }).start();
             }

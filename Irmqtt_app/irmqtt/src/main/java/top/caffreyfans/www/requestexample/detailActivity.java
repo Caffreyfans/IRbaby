@@ -26,7 +26,6 @@ public class detailActivity extends AppCompatActivity {
     private String type;
     private int categoryId, brandId, id;
     private ArrayList<String> list;
-    private udpUntils udpUntils;
     private ProgressDialog progressDialog;
 
     @Override
@@ -143,8 +142,8 @@ public class detailActivity extends AppCompatActivity {
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    udpUntils.sendMessage(jsonObject.toString());
-                                    udpUntils.umpReceive();
+                                    Gobal.udpUtils.sendMessage(jsonObject.toString());
+                                    Gobal.udpUtils.umpReceive();
                                     handler.sendEmptyMessage(0);
 
                                 }
@@ -184,7 +183,6 @@ public class detailActivity extends AppCompatActivity {
         brandId = in.getIntExtra("Irext.brandId", -1);
         id = in.getIntExtra("Irext.Id",-1);
         list = (ArrayList<String>) new ArrayList<String>();
-        udpUntils = new udpUntils();
         progressDialog = new ProgressDialog(detailActivity.this);
     }
 

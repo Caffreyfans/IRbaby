@@ -5,4 +5,5 @@ package top.caffreyfans.www.requestexample;
  */
 public class Gobal {
     public static Irext Irext;
+    public static udpUtils udpUtils;
 }

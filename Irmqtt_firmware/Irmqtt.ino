@@ -6,7 +6,7 @@ Created:  2018/6/14 15:54:10
 Author:     Caffreyfans
 */
 
-// Define User Types below here or use a .h file
+// 头文件声明
 //
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
@@ -19,21 +19,22 @@ Author:     Caffreyfans
 #include "./include/ir_decode.h"
 #include <PubSubClient.h>
 
-// Define Function Prototypes that use User Types below here or use a .h file
+//宏定义
 //
-#define MAX_PACKETSIZE 512 //UDP包大小
+#define MAX_PACKETSIZE 512 // UDP包大小
 #define SERIAL_DEBUG Serial
-#define TRY_COUNT 5
-#define UDP_PORT 8000
-#define USER_DATA_SIZE 1024
+#define TRY_COUNT 5 // 尝试次数
+#define UDP_PORT 8000	// UDP端口
+#define USER_DATA_SIZE 1024	// 红外码数组大小
 
-char buffUDP[MAX_PACKETSIZE];
+// 全局变量
+char buffUDP[MAX_PACKETSIZE];	// UDP缓存区
 WiFiUDP udp;
 DynamicJsonBuffer jsonBuffer;
 JsonObject& settings_json = jsonBuffer.createObject();
 WiFiClient espClient;
 PubSubClient client(espClient);
-UINT16 user_data[USER_DATA_SIZE];
+UINT16 user_data[USER_DATA_SIZE];	// 红外码数组
 
 static t_remote_ac_status ac_status =
 {
@@ -75,13 +76,14 @@ boolean doUDPServerTick();
 
 /**
 说明：获取下载列表
+返回值：获取成功返回true, 否则返回false
 */
 boolean getList();
 
 /**
 说明：下载文件
 参数：文件id
-返回值：成功返回true, 否则返回false
+返回值：下载成功返回true, 否则返回false
 */
 boolean downLoadFile(int index_id);
 
@@ -90,7 +92,7 @@ boolean downLoadFile(int index_id);
 /**
 说明：发射红外信号
 参数：
-返回值：成功返回true, 失败返回false
+返回值：发射成功返回true, 失败返回false
 */
 boolean sendIR();
 
@@ -98,7 +100,7 @@ boolean sendIR();
 /**
 说明：连接mqtt服务器
 参数：JsonObject 对象（host, port, user, password)
-返回值：成功返回true, 失败返回false
+返回值：连接成功返回true, 失败返回false
 */
 boolean connectMqtt();
 
@@ -121,12 +123,14 @@ void disposeUdpMessage(String msg);
 
 /**
 说明：保存设置
+返回值：保存成功返回true, 否则返回false
 */
 boolean saveSettings();
 
 
 /**
 说明：提取设置
+返回值：提取成功返回true, 否则返回false
 */
 boolean getSettings();
 
@@ -134,6 +138,7 @@ boolean getSettings();
 /**
 说明：将字符串转换成对应枚举值
 参数：字符串
+返回值：返回str对应的枚举值
 */
 int coverToEnum(String str, String type);
 
@@ -268,7 +273,7 @@ void disposeUdpMessage(String msg) {
 }
 
 boolean connectMqtt() {
-	
+
 	const char* host = settings_json["mqtt"]["host"];
 	const int port = settings_json["mqtt"]["port"];
 	const char* user = settings_json["mqtt"]["user"];
@@ -295,7 +300,7 @@ boolean connectMqtt() {
 			delay(1000);
 		}
 		time_end = millis();
-		if (time_end - time_start > 10000) {
+		if (time_end - time_start > 5000) {
 			SERIAL_DEBUG.println("connect timeout");
 			sendUDP("time out");
 			return false;
@@ -310,7 +315,7 @@ boolean connectMqtt() {
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
-	
+
 	String cmd = "";
 	for (int i = 0; i < length; i++)
 		cmd += (char)payload[i];
@@ -356,14 +361,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
 }
 
 int coverToEnum(String str, String type) {
-	String swing_str[] = {"True", "False"};
+	String swing_str[] = { "True", "False" };
 	String swing_speed_str[] = { "auto", "low", "medium", "high" };
 	String mode_str[] = { "cool", "heat", "auto", "fan", "dry" };
-	if (type == "mode") 
+	if (type == "mode")
 		for (int i = 0; i < sizeof(mode_str) / sizeof(mode_str[0]); i++) {
 			if (str == mode_str[i])	return i;
 		}
-	
+
 	if (type == "swind")
 		for (int i = 0; i < sizeof(swing_str) / sizeof(swing_str[0]); i++) {
 			if (str == swing_str[i])	return i;

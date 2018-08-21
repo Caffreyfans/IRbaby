@@ -18,7 +18,7 @@ public class mqttConfig extends AppCompatActivity {
     private EditText mqtt_user;
     private EditText mqtt_password;
     private JSONObject mqtt_config;
-    private udpUntils udpUntils;
+    private udpUtils udpUtils;
     private ProgressDialog progressDialog;
     private JSONObject json_object;
 
@@ -35,7 +35,6 @@ public class mqttConfig extends AppCompatActivity {
         mqtt_password = (EditText) findViewById(R.id.mqttPwdET);
         progressDialog = new ProgressDialog(this);
         mqtt_config = new JSONObject();
-        udpUntils = new udpUntils();
         json_object = new JSONObject();
 
         configBtn.setOnClickListener(new View.OnClickListener() {
@@ -50,18 +49,23 @@ public class mqttConfig extends AppCompatActivity {
 
                     progressDialog.setMessage("正在连接到MQTT服务器...");
                     progressDialog.show();
-                    progressDialog.setCancelable(false);
+                    progressDialog.setCancelable(true);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            udpUntils.sendMessage(json_object.toString());
-                            if(udpUntils.umpReceive().equals("connected")){
+                            Gobal.udpUtils.sendMessage(json_object.toString());
+                            String ret = Gobal.udpUtils.umpReceive();
+                            if (ret.equals("connected")){
                                 progressDialog.setMessage("连接成功...");
-                                progressDialog.setCancelable(true);
                             }
-                            else{
+                            else {
                                 progressDialog.setMessage("连接超时...");
-                                progressDialog.setCancelable(true);
+                            }
+                            try {
+                                Thread.sleep(500);
+                                progressDialog.dismiss();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
                         }
                     }).start();

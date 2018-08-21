@@ -27,7 +27,6 @@ public class Irext {
     private JSONObject idToken;
     // 实现volley回调2：定义接口成员变量
     private volleyCallBack volleyCallBack;
-    private udpUntils udpUntils;
 
 
     public Irext(Context context) {
@@ -36,7 +35,6 @@ public class Irext {
         mContext = context;
         idToken = new JSONObject();
         mRequestQueue = Volley.newRequestQueue(mContext);
-        udpUntils = new udpUntils();
     } // end of Irext object create
 
 
@@ -97,7 +95,7 @@ public class Irext {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                udpUntils.sendMessage(json_object.toString());
+                Gobal.udpUtils.sendMessage(json_object.toString());
             }
         }).start();
     } // End of getApplianceTypes

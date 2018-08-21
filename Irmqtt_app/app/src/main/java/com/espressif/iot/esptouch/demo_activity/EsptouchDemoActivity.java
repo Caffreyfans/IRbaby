@@ -33,6 +33,7 @@ import com.espressif.iot.esptouch.util.EspAES;
 import com.espressif.iot.esptouch.util.EspNetUtil;
 import com.espressif.iot_esptouch_demo.R;
 
+import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -46,7 +47,6 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
     private EditText mApPasswordET;
     private EditText mDeviceCountET;
     private Button mConfirmBtn;
-
     private IEsptouchListener myListener = new IEsptouchListener() {
 
         @Override
@@ -291,6 +291,7 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
                 final int maxDisplayCount = 5;
                 // the task received some results including cancelled while
                 // executing before receiving enough results
+                String ip_address = "";
                 if (firstResult.isSuc()) {
                     StringBuilder sb = new StringBuilder();
                     for (IEsptouchResult resultInList : result) {
@@ -299,10 +300,22 @@ public class EsptouchDemoActivity extends AppCompatActivity implements OnClickLi
                                 .append(", InetAddress = ")
                                 .append(resultInList.getInetAddress().getHostAddress())
                                 .append("\n");
-
                         count++;
-
+                        ip_address = resultInList.getInetAddress().getHostAddress();
                     }
+
+                    String filename = "ip_address";
+                    FileOutputStream outputStream;
+
+                    try {
+                        outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                        outputStream.write(ip_address.getBytes());
+                        outputStream.close();
+                        Log.i("Save File", "success");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     if (count < result.size()) {
                         sb.append("\nthere's ")
                                 .append(result.size() - count)

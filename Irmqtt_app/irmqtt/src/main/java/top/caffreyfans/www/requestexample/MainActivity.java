@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 
         Gobal.Irext = new Irext(getApplicationContext());
         Gobal.Irext.appLogin();
-
+        Gobal.udpUtils = new udpUtils(getApplicationContext());
 
         parseDeviceBtn.setOnClickListener(new View.OnClickListener() {
             // 设置选择设备类型响应事件
@@ -73,6 +73,7 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+
     }
 
 

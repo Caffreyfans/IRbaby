@@ -12,7 +12,6 @@ import org.json.JSONObject;
 public class OnoffActivity extends AppCompatActivity {
     private Button switchOnBtn;
     private Button irSendBtn;
-    private udpUntils udpUntils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +26,6 @@ public class OnoffActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        udpUntils = new udpUntils();
 
         switchOnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,7 +33,7 @@ public class OnoffActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        udpUntils.sendMessage(jsonObject.toString());
+                        Gobal.udpUtils.sendMessage(jsonObject.toString());
                     }
                 }).start();
             }
@@ -53,7 +51,7 @@ public class OnoffActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        udpUntils.sendMessage(jsonObject1.toString());
+                        Gobal.udpUtils.sendMessage(jsonObject1.toString());
                     }
                 }).start();
             }

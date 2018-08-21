@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="app_name">Irmqtt</string>
     <string name="parse_device">匹配设备</string>
@@ -15,31 +16,31 @@
     <string name="pin_about">此图为NODEMCU1.0引脚图\n关于发射引脚的定义:\n应选择GPIO引脚，如gpio14(D5) 那么就填14。然后红外二级管输入端接gpio14, 输出端接地就行了。</string>
     <string name="mqtt_topic">
         - platform: mqtt\n
-          name: Study\n
-          modes:\n
-            - cool\n
-            - heat\n
-            - auto\n
-            - fan\n
-            - dry\n
-            - off\n
-          swing_modes:\n
-            - on\n
-            - off\n
-          fan_modes:\n
-            - high\n
-            - medium\n
-            - low\n
-            - auto\n
-          power_command_topic: "irmqtt/ac/power/set"\n
-          mode_command_topic: "irmqtt/ac/mode/set"\n
-          temperature_command_topic: "irmqtt/ac/temperature/set"\n
-          fan_mode_command_topic: "irmqtt/ac/fan/set"\n
-          swing_mode_command_topic: "irmqtt/ac/swing/set"\n
-          min_temp: 16\n
-          max_temp: 30\n\n\n
-        除了修改name, 其余不应改变的复制到homeassistant的配置文件中，例子格式存在错误，请参照homeassistant中的MQTT/AC例子。\n\n
-        APP存在BUG,所以确保ESP已联网再执行后续操作\n\n
+&#160;name: Study\n
+&#160;modes:\n
+&#160;&#160;&#160;&#160;- cool\n
+&#160;&#160;&#160;&#160;- heat\n
+&#160;&#160;&#160;&#160;- auto\n
+&#160;&#160;&#160;&#160;- fan\n
+&#160;&#160;&#160;&#160;- dry\n
+&#160;&#160;&#160;&#160;- off\n
+&#160;swing_modes:\n
+&#160;&#160;&#160;&#160;- on\n
+&#160;&#160;&#160;&#160;- off\n
+&#160;fan_modes:\n
+&#160;&#160;&#160;&#160;- high\n
+&#160;&#160;&#160;&#160;- medium\n
+&#160;&#160;&#160;&#160;- low\n
+&#160;&#160;&#160;&#160;- auto\n
+&#160;power_command_topic: "irmqtt/ac/power/set"\n
+&#160;mode_command_topic: "irmqtt/ac/mode/set"\n
+&#160;temperature_command_topic: "irmqtt/ac/temperature/set"\n
+&#160;fan_mode_command_topic: "irmqtt/ac/fan/set"\n
+&#160;swing_mode_command_topic: "irmqtt/ac/swing/set"\n
+&#160;min_temp: 16\n
+&#160;max_temp: 30\n\n\n
+        除了修改name, 其余不应改变的复制到homeassistant的配置文件中，如果例子格式存在错误，请参照homeassistant中的MQTT/AC例子。\n\n
+        APP存在BUG,所以确保ESP已联网，然后选择引脚，匹配电器，连接mqtt\n\n
         界面太丑，交互能力差，后期优化，优化~~~
     </string>
 </resources>
