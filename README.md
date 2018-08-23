@@ -20,6 +20,8 @@ Irmqtt 仍然处于前期开发阶段，未经充分测试与验证，不推荐�
 ## 说明
 现已完成，当前版本只支持空调
 
+## 时序图
+![Irmqtt时序图](https://github.com/Caffreyfans/IRmqtt/blob/master/src/Irmqtt.svg)
 ## 使用方法
 见[演示视频](https://v.youku.com/v_show/id_XMzc5MTAxMDYxNg==.html?x&sharefrom=android&sharekey=174a4f326234a5ca62e09327ce0931682)
 
