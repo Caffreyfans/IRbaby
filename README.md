@@ -23,7 +23,7 @@ Irmqtt 仍然处于前期开发阶段，未经充分测试与验证，不推荐�
 ## 时序图
 ![Irmqtt时序图](https://github.com/Caffreyfans/IRmqtt/blob/master/src/Irmqtt.svg)
 ## 使用方法
-见[演示视频](https://v.youku.com/v_show/id_XMzc5MTAxMDYxNg==.html?x&sharefrom=android&sharekey=174a4f326234a5ca62e09327ce0931682)
+见[演示视频](http://my.tv.sohu.com/us/334912730/105448709.shtml)
 
 ## 发射管连接图
 ![红外连接图](https://camo.githubusercontent.com/8b4e10e4d829d417cc29a5d5a563f650fb4beabf/687474703a2f2f667269747a696e672e6f72672f6d656469612f667269747a696e672d7265706f2f70726f6a656374732f652f657370383236362d69722d7472616e736d69747465722f696d616765732f49522532305472616e736d69747465725f62622e706e67)
