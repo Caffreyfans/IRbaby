@@ -1,7 +1,5 @@
 # Irmqtt
-tags: 
- - app
- - firmware
+tags: app,firmware
 
 ---
 ## 什么是Irmqtt?
