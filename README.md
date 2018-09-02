@@ -1,8 +1,8 @@
-# Irmqtt
+# IRmqtt
 `app`, `firmware`
 
 ---
-## 什么是Irmqtt?
+## 什么是IRmqtt?
 Irmqtt是 [Irext](https://github.com/irext/irext-core)的一个衍生项目。
 Irmqtt的作用是帮助你只需要一个ESP8266系列的模块和一个红外二级管就可以控制家里红外设备。
 它的优势在于：
@@ -12,7 +12,7 @@ Irmqtt的作用是帮助你只需要一个ESP8266系列的模块和一个红外�
 
 ## 开发状态
 
-Irmqtt 仍然处于前期开发阶段，未经充分测试与验证，不推荐用于生产环境。
+IRmqtt 仍然处于前期开发阶段，未经充分测试与验证，不推荐用于生产环境。
 
 **目前的交互协议可能随时改变，不保证向后兼容，升级新版本时需要注意公告说明同时升级服务端和客户端。**
 
@@ -20,7 +20,7 @@ Irmqtt 仍然处于前期开发阶段，未经充分测试与验证，不推荐�
 现已完成，当前版本只支持空调
 
 ## 时序图
-![Irmqtt时序图](https://github.com/Caffreyfans/IRmqtt/blob/master/src/Irmqtt.svg)
+![IRmqtt时序图](https://github.com/Caffreyfans/IRmqtt/blob/master/src/Irmqtt.svg)
 ## 使用方法
 见[演示视频](https://tv.sohu.com/upload/static/share/share_play.html#105448709_334912730_0_9001_0)
 
