@@ -10,7 +10,7 @@
 ## What's IRmqtt?
 IRmqtt uses the [Irext](https://github.com/irext/irext-core) open source infrared library, and IRext provides tens of thousands of infrared device remote control codes.
 
-IRmqtt helps you pass the ESP series of modules, all of which can be easily set up in [Infrared Control Devices] in [HomeAssisant](https://www.home-assistant.io/).
+IRmqtt helps you pass the ESP series of modules, all of which can be easily set up in [HomeAssisant](https://www.home-assistant.io/).
 
 ## Status
 V1.0 only supports air conditioning equipment
