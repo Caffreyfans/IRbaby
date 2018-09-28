@@ -1,35 +1,35 @@
+﻿
+
+
 # IRmqtt
-`app`, `firmware`
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+
+[README](README.md) | [中文文档](README_zh.md)
 
 ---
-## 什么是IRmqtt?
-Irmqtt是 [Irext](https://github.com/irext/irext-core)的一个衍生项目。
-Irmqtt的作用是帮助你只需要一个ESP8266系列的模块和一个红外二级管就可以控制家里红外设备。
-它的优势在于：
-  > * 成本低廉只需要一个ESP8266模块或开发板如NodeMcu)和一个红外二级管
-  > * 不需要人为学习红外码快速匹配到电器
-  > * 有mqtt接口可以方便接入homeassistant
+## What's IRmqtt?
+IRmqtt uses the [Irext](https://github.com/irext/irext-core) open source infrared library, and IRext provides tens of thousands of infrared device remote control codes.
 
-## 开发状态
+IRmqtt helps you pass the ESP series of modules, all of which can be easily set up in [Infrared Control Devices] in [HomeAssisant] (https://www.home-assistant.io/).
 
-IRmqtt 仍然处于前期开发阶段，未经充分测试与验证，不推荐用于生产环境。
+## Status
+V1.0 only supports air conditioning equipment
 
-**目前的交互协议可能随时改变，不保证向后兼容，升级新版本时需要注意公告说明同时升级服务端和客户端。**
+**IRmqtt is still in the development stage. The current interactive protocol may change at any time. It is not guaranteed to be backward compatible. When upgrading the new version, you need to pay attention to the announcement and upgrade the firmware and app.**
 
-## 说明
-现已完成，当前版本只支持空调
+## Timing diagram
+![IRmqtt Timing diagram](https://github.com/Caffreyfans/IRmqtt/blob/master/src/IRmqtt_en.svg)
 
-## 时序图
-![IRmqtt时序图](https://github.com/Caffreyfans/IRmqtt/blob/master/src/Irmqtt.svg)
-## 使用方法
-见[演示视频](https://tv.sohu.com/upload/static/share/share_play.html#105448709_334912730_0_9001_0)
+## Usage
+Compile or directly download the compiled firmware and apk installation package, brush the firmware into the ESP series module, and install the apk on the mobile phone.
 
-## 发射管连接图
-![红外连接图](https://camo.githubusercontent.com/8b4e10e4d829d417cc29a5d5a563f650fb4beabf/687474703a2f2f667269747a696e672e6f72672f6d656469612f667269747a696e672d7265706f2f70726f6a656374732f652f657370383236362d69722d7472616e736d69747465722f696d616765732f49522532305472616e736d69747465725f62622e706e67)
+## Infrared tube connection diagram
+![Infrared tube connection diagram图](https://camo.githubusercontent.com/8b4e10e4d829d417cc29a5d5a563f650fb4beabf/687474703a2f2f667269747a696e672e6f72672f6d656469612f667269747a696e672d7265706f2f70726f6a656374732f652f657370383236362d69722d7472616e736d69747465722f696d616765732f49522532305472616e736d69747465725f62622e706e67)
 
-也可以尝试不用三级管，直接连接。红外二级管长引脚接gpio，短脚接地。
+You can also try to connect directly without a three-stage tube. The infrared diode has a long pin connected to gpio and a short pin to gnd.
 
-## HomeAssistant配置文件
+## HomeAssistant configuration
+Please do not modify the topic
 ```yaml
 climate:
   - platform: mqtt
@@ -58,6 +58,6 @@ climate:
     max_temp: 30
 ```
 
-## 特别感谢
-[Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持
+## Special thanks to
+[Strawmanbobi](https://github.com/strawmanbobi) The author of the Irext open source library gives me technical and spiritual support
 <img src="http://irext.net/images/bobi_qr.png" align="left" height="160" width="160">
