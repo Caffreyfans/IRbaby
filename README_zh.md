@@ -9,7 +9,7 @@
 ---
 ## 什么是IRmqtt?
 IRmqtt使用[Irext](https://github.com/irext/irext-core)开源红外库，IRext 提供数以万计的红外设备遥控编码。
-IRmqtt帮助你通过ESP系列模块，只需对其进行简单设置就可以在HomeAssisant里的所有红外控制设备。
+IRmqtt帮助你通过ESP系列模块，只需对其进行简单设置就可以在 [HomeAssisant](https://www.home-assistant.io/) 里的所有红外控制设备。
 
 ## 开发状态
 v1.0 只支持空调设备
