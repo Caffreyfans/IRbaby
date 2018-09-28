@@ -23,7 +23,7 @@ Author:     Caffreyfans
 //
 #define MAX_PACKETSIZE 512 // UDP包大小
 #define SERIAL_DEBUG Serial
-#define TRY_COUNT 5 // 尝试次数
+#define TRY_COUNT 2 // 尝试次数
 #define UDP_PORT 8000	// UDP端口
 #define USER_DATA_SIZE 1024	// 红外码数组大小
 
@@ -143,28 +143,54 @@ boolean getSettings();
 int coverToEnum(String str, String type);
 
 
+/**
+说明：格式化ESP文件系统
+*/
+void espFormatESP();
+
+
+/**
+说明: 重启ESP
+*/
+void restartESP();
+
+/**
+说明：自动联网
+返回值：成功返回true, 失败返回false
+*/
+bool autoConfig();
+
+
+void smartConfig();
+
+
+/**
+说明：显示内存信息
+*/
+void showMemoryInfo();
+
+
+/**
+说明：删除无用文件
+*/
+void deleteFile();
+
 void setup()
 {
 	SERIAL_DEBUG.begin(115200);
-	WiFi.mode(WIFI_STA);
-	WiFi.beginSmartConfig();
-	//WiFi.begin(ssid);
-	SERIAL_DEBUG.println("\nConnecting to WiFi");
-	while (1) {
-		SERIAL_DEBUG.print(".");
-		delay(500);
-		if (WiFi.status() == WL_CONNECTED) {
-			SERIAL_DEBUG.println("\r\nSmartConfig Success");
-			SERIAL_DEBUG.printf("SSID:%s\r\n", WiFi.SSID().c_str());
-			SERIAL_DEBUG.printf("PSW:%s\r\n", WiFi.psk().c_str());
-			SERIAL_DEBUG.println(WiFi.localIP());
-			break;
-		}
-	}
-	startUDPServer(UDP_PORT);
 	SPIFFS.begin();
+	showMemoryInfo();
+
+	if (!autoConfig())
+	{
+		Serial.println("Start module");
+		smartConfig();
+	}
+
+	startUDPServer(UDP_PORT);
 	settings_json["device_name"] = "irmqtt";
 	settings_json["device_type"] = "ac";
+
 	if (getSettings() == true) {
 		SERIAL_DEBUG.println("get settings_json");
 		settings_json.printTo(SERIAL_DEBUG);
@@ -248,6 +274,7 @@ void disposeUdpMessage(String msg) {
 			}
 		}
 		if (object.containsKey("list")) {
+			deleteFile();
 			settings_json["list"] = object["list"];
 			if (getList() == true)	sendUDP("get list success");
 			else sendUDP("get list error");
@@ -262,7 +289,14 @@ void disposeUdpMessage(String msg) {
 			settings_json["use_file"] = object["use_file"];
 		}
 		if (object.containsKey("cmd")) {
-			sendIR();
+			String cmd = object["cmd"];
+			SERIAL_DEBUG.println(cmd);
+			if (cmd.equals("ir")) {
+				sendIR();
+			}
+			if (cmd.equals("format")) {
+				espFormatESP();
+			}
 		}
 		settings_json.printTo(SERIAL_DEBUG);
 		saveSettings();
@@ -431,9 +465,11 @@ boolean downLoadFile(int index_id) {
 			http.addHeader("Content-Type", "application/json");
 			httpCode = http.POST(tmp);
 
-
-			SERIAL_DEBUG.print("[HTTP] POST return code: ");
-			SERIAL_DEBUG.println(httpCode);
+			if (httpCode != HTTP_CODE_OK) {
+				SERIAL_DEBUG.printf("download %s error: \n", filename.c_str());
+				SERIAL_DEBUG.printf("[HTTP] POST return code: %d\n\n", httpCode);
+			}
+			
 
 			if (httpCode == HTTP_CODE_OK) {
 				http.writeToStream(filestream);
@@ -528,4 +564,100 @@ boolean getSettings() {
 	}
 	cache.close();
 	return true;
+}
+
+
+void espFormatESP() {
+	SERIAL_DEBUG.println("file system format success!");
+	SPIFFS.format();
+}
+
+
+
+void restartESP() {
+	SERIAL_DEBUG.println("restart ESP success!");
+	ESP.restart();
+}
+
+bool autoConfig()
+{
+	WiFi.begin();
+	for (int i = 0; i < 20; i++)
+	{
+		int wstatus = WiFi.status();
+		if (wstatus == WL_CONNECTED)
+		{
+			Serial.println("AutoConfig Success");
+			Serial.printf("SSID:%s\r\n", WiFi.SSID().c_str());
+			Serial.printf("PSW:%s\r\n", WiFi.psk().c_str());
+			WiFi.printDiag(Serial);
+			return true;
+			//break;
+		}
+		else
+		{
+			Serial.print("AutoConfig Waiting......");
+			Serial.println(wstatus);
+			delay(1000);
+		}
+	}
+	Serial.println("AutoConfig Faild!");
+	return false;
+	//WiFi.printDiag(Serial);
+}
+
+
+void smartConfig()
+{
+	WiFi.mode(WIFI_STA);
+	Serial.println("\r\nWait for Smartconfig");
+	WiFi.beginSmartConfig();
+	while (1)
+	{
+		Serial.print(".");
+		if (WiFi.smartConfigDone())
+		{
+			Serial.println("SmartConfig Success");
+			Serial.printf("SSID:%s\r\n", WiFi.SSID().c_str());
+			Serial.printf("PSW:%s\r\n", WiFi.psk().c_str());
+			WiFi.setAutoConnect(true);  // 设置自动连接
+			break;
+		}
+		delay(1000); // 这个地方一定要加延时，否则极易崩溃重启
+	}
+}
+
+
+void showMemoryInfo() {
+	
+	FSInfo fs_info;
+	SPIFFS.info(fs_info);
+	SERIAL_DEBUG.println("****** 内存信息 ******");
+	SERIAL_DEBUG.printf("totalBytes = %d\n", fs_info.totalBytes);
+	SERIAL_DEBUG.printf("usedBytes = %d\n", fs_info.usedBytes);
+	SERIAL_DEBUG.printf("avaliableBytes = %d\n", fs_info.totalBytes - fs_info.usedBytes);
+	SERIAL_DEBUG.println("**********************");
+}
+
+
+
+void deleteFile() {
+	String delete_file;
+	String use_file = settings_json["use_file"];
+	if (settings_json.containsKey("use_file")) {
+		for (int i = 0; i < settings_json["list"].size(); i++) {
+			delete_file = settings_json["list"][i].asString();
+			if (SPIFFS.exists(delete_file) && (delete_file != use_file)) {
+				SERIAL_DEBUG.printf("try to remove %s\n", delete_file.c_str());
+				SPIFFS.remove(delete_file);
+			}
+				
+		}
+	}
+	else {
+		for (int i = 0; i < settings_json["list"].size(); i++) {
+			delete_file = settings_json["list"][i].asString();
+			SPIFFS.remove(delete_file);
+		}
+	}
 }
