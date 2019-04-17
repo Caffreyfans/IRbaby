@@ -1,5 +1,5 @@
 ﻿
-
+# 如果你还想使用 `IRmqtt` 我想对你说声抱歉，由于接口改变。导致 `IRmqtt` 无法使用。目前正在研制 `IRmqtt2.0` 版，敬请期待！
 
 # IRmqtt
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
