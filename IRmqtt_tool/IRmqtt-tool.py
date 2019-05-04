@@ -219,7 +219,7 @@ climate:
         url = 'https://irext.net/irext-server/indexing/list_brands'
         headers = {'Content-Type':'application/json'}
         data = {'id':self._auther['id'], 'token':self._auther['token'], \
-            'categoryId':category_id, 'from':'1', 'count':'200'}
+            'categoryId':category_id, 'from':'1', 'count':'2000'}
         response = requests.post(url=url, data=json.dumps(data), headers=headers)
         ret_json = json.loads(response.text)
         id_list = []
@@ -257,7 +257,7 @@ climate:
         url = 'https://irext.net/irext-server/indexing/list_indexes'
         headers = {'Content-Type':'application/json'}
         data = {'id':self._auther['id'], 'token':self._auther['token'], \
-            'categoryId':category_id, 'brandId':brand_id, 'from':'1', 'count':'200'}
+            'categoryId':category_id, 'brandId':brand_id, 'from':'1', 'count':'2000'}
         response = requests.post(url=url, data=json.dumps(data), headers=headers)
         # print('获得下载 列表: ', end='\n')
         ret_json = json.loads(response.text)
