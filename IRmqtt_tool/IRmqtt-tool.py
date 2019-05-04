@@ -91,15 +91,14 @@ class Irext:
         """匹配空调"""
         index_id = self.list_brands(self._category_id)
         index_list = self.list_indexes(self._category_id, index_id)
-        print(index_list)
-        i = 1
+        i = 0
         while True:
             print('# # # # # # # # # # # # # # # # # # # # # # # #')
             print("【空调匹配】")
             print('''注意：选择【信号发射测试】之前请确保已经设置好红
 外发射引脚,并且红外发射管已经与模块连接好。信号
 发射之后空调若有响应请再选择【匹配成功】进行确认\n''')
-            print("共为你找到 {} 个可用类型，当前正在使用第 {} 个".format(len(index_list), i))
+            print("共为你找到 {} 个可用类型，当前正在使用第 {} 个".format(len(index_list), i + 1))
             print("[1] 信号发射测试")
             print("[2] 匹配成功")
             print("[3] 试试下一个")
@@ -158,13 +157,13 @@ climate:
                 input('请按回车继续...')
             elif choice == 3:
                 i += 1
-                if i > len(index_list):
-                    i = 1
+                if i > len(index_list) - 1:
+                    i = 0
                 continue
             elif choice == 4:
                 i -= 1
-                if i < 1:
-                    i = len(index_list)
+                if i < 0:
+                    i = len(index_list) - 1
                 continue
             elif choice == 5:
                 break
