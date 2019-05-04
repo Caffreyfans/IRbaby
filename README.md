@@ -29,11 +29,10 @@ IRmqtt 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 
 ## 材料
 ### 红外接收头可选
-|||||
-|---|---|---|---|
+|||
+|---|---|
 |![Nodemcu](src/nodemcu.jpg) | ![红外二级管](src/ir_led.jpg) |
-![红外接收头](src/ir_receiver.jpg) |
-![三级管](src/transistor.jpg) |
+![红外接收头](src/ir_receiver.jpg) | ![三级管](src/transistor.jpg) |
 
 
 ## 使用方法
@@ -41,7 +40,8 @@ IRmqtt 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 1. 到 **releases** 页面下载最新文件
 2. 利用 **FlashESP8266.exe** 刷写 **IRmqtt.bin** 到你的 **ESP8266** 模块
 3. 通过任意移动端（笔记本、平板、手机）连接 **ESP** 开头的 **SSID**，然后浏览器进入 **192.168.4.1** 给模块配置网络
-4. 利用 **python3** 环境执行 **IRmqtt-tool.py** 给你的模块进行设置
+4. 利用 **python3** 环境执行 **IRmqtt-tool.py** 给你的模块进行设置  
+
 ![时序图](src/sequence.jpg)
 
 ## 关于连线
