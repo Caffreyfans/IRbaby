@@ -10,7 +10,6 @@
 v2.0 增加录码功能
 v1.0 只支持空调设备
 **IRmqtt目前仍处于开发阶，目前的交互协议可能随时改变，不保证向后兼容，升级新版本时需要注意公告说明同时升级固件和客户端。**
-
 ## 材料准备
 ### 如果你不需要录码
 ![Nodemcu](https://raw.githubusercontent.com/Caffreyfans/IRmqtt/dev/src/nodemcu.jpg)
@@ -23,12 +22,15 @@ v1.0 只支持空调设备
 2. 通过任意移动端（笔记本、平板、手机）连接 **ESP** 开头的 **SSID**，然后浏览器进入 **192.168.4.1** 给模块配置网络
 3. 利用 **python3** 环境执行 **IRmqtt-tool.py** 给你的模块进行设置
 
-## 建议观看演示视频
-
 ## 关于连线
 ![红外连接图](https://camo.githubusercontent.com/8b4e10e4d829d417cc29a5d5a563f650fb4beabf/687474703a2f2f667269747a696e672e6f72672f6d656469612f667269747a696e672d7265706f2f70726f6a656374732f652f657370383236362d69722d7472616e736d69747465722f696d616765732f49522532305472616e736d69747465725f62622e706e67)
 
-备注：也可以尝试不用三级管，直接连接。红外二级管长引脚接gpio，短脚接地。红外接收头的话就照着红外接收头标示的那样与模块连接。
+![接线](https://raw.githubusercontent.com/Caffreyfans/IRmqtt/dev/src/connect.jpg)
+
+备注：也可以尝试不用三级管，直接连接。红外二级管长引脚接gpio，短脚接地。红外接收头的话就照着上图标示的那样与模块连接。
+
+## 建议观看演示视频
+[视频地址](https://www.bilibili.com/video/av51434417/)
 
 ## 特别感谢
 [Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持
