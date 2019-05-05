@@ -52,7 +52,7 @@ IRmqtt 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 备注：红外二级管连接的时候也可以尝试不用三级管，直接连接。红外二级管长引脚接gpio，短脚接地。红外接收头的话就照着上图标示的那样与模块连接。
 
 ## 建议观看演示视频
-[视频地址](https://www.bilibili.com/video/av51434417/)
+[视频地址](https://www.bilibili.com/video/av51492029/)
 
 ## 特别感谢
 [Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持
