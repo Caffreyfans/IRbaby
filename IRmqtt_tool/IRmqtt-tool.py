@@ -51,9 +51,13 @@ class udpUtils:
 
     def get_local_ip(self):
         """获取本机 ip 并返回"""
-        hostname = socket.gethostname()
-        local_ip = socket.gethostbyname(hostname)
-        return str(local_ip)
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(('8.8.8.8', 80))
+            ip = s.getsockname()[0]
+        finally:
+            s.close()
+        return str(ip)
 
     def start_thread(self):
         """开始 udp 接收线程"""
@@ -291,7 +295,6 @@ class IRmqttDevice:
 
     def discover_devices(self):
         """发现在线设备"""
-
         local_ip = self._udp_client.get_local_ip()
         data = {}
         data["upload_ip"] = local_ip
