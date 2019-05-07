@@ -198,7 +198,7 @@ climate:
         url = 'https://irext.net/irext-server/indexing/list_categories'
         headers = {'Content-Type':'application/json'}
         data = {'id':self._auther['id'], 'token':self._auther['token'], \
-            'from':'1', 'count':'20'}
+            'from':'0', 'count':'20'}
         response = requests.post(url=url, data=json.dumps(data), headers=headers)
         ret_json = json.loads(response.text)
         categories_list = []
@@ -222,7 +222,7 @@ climate:
         url = 'https://irext.net/irext-server/indexing/list_brands'
         headers = {'Content-Type':'application/json'}
         data = {'id':self._auther['id'], 'token':self._auther['token'], \
-            'categoryId':category_id, 'from':'1', 'count':'2000'}
+            'categoryId':category_id, 'from':'0', 'count':'2000'}
         response = requests.post(url=url, data=json.dumps(data), headers=headers)
         ret_json = json.loads(response.text)
         id_list = []
