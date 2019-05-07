@@ -62,7 +62,7 @@ IRmqtt 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 [视频地址](https://www.bilibili.com/video/av51492029/)
 
 ## 附加下载地址
-如果你有在 **github releases** 下载文件过慢的问题，请在 `http://caffreyfans.top/IRmqtt/*.zip` 下在对应文件，如你要下载 `IRmqtt.v2.2.zip` 那么到 `http://caffreyfans.top/IRmqtt/IRmqtt.v2.2.zip` 也可以
+如果你有在 **github releases** 下载文件过慢的问题，请在 [http://caffreyfans.top/IRmqtt](http://caffreyfans.top/IRmqtt) 下在对应文件
 
 ## 特别感谢
 [Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持
