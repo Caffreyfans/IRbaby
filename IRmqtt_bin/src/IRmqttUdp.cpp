@@ -40,19 +40,12 @@ void udpClient::listenLoop() {
     if (receive_json.containsKey("upload_ip")) {
       String remote_address = receive_json["upload_ip"];
       String chip_id = getChipId();
-      DEBUG(chip_id);
       ret_msg["ret"]["device"] = jsonBuffer.createObject();
       ret_msg["ret"]["device"][chip_id] = WiFi.localIP().toString();
       IPAddress remote_ip;
       if (remote_ip.fromString(remote_address)) {
         returnMsg(&ret_msg, remote_ip);
       }
-    }
-
-    // 清除文件
-    if (receive_json.containsKey("clear")) {
-      String file_path = receive_json["clear"];
-      user_settings.clear(file_path);
     }
 
     // 保存上传设置
@@ -103,10 +96,6 @@ void udpClient::listenLoop() {
         if (receive_json["ir"]["recv"].asObject().containsKey("save")) {
           irmqtt_ir.saveCustom(receive_json["ir"]["recv"]["save"]);
         }
-
-        // if (receive_json["ir"]["recv"].asObject().containsKey("read")) {
-        //   irmqtt_ir.readCustom(receive_json["ir"]["recv"]["read"]);
-        // }
       }
 
     }

@@ -10,6 +10,7 @@ void setup() {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
   setupWiFi();
+  user_settings.clearTmp();
   user_settings.loadSettings();
 }
 

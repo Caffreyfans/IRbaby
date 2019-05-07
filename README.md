@@ -16,6 +16,10 @@ IRmqtt 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 
 ## 版本信息
 ---
+> **2019-05-07**<br />
+> v2.2 修复客户端奥克斯空调不存在问题，增加固件重启清理缓存文件功能
+
+---
 > **2019-05-06**<br />
 > v2.1 修复无法获取设备问题，先直接运行 IRmqtt-tool.exe 不再依赖 python3 环境
 
@@ -56,6 +60,9 @@ IRmqtt 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 
 ## 建议观看演示视频
 [视频地址](https://www.bilibili.com/video/av51492029/)
+
+## 附加下载地址
+如果你有在 **github releases** 下载文件过慢的问题，请在 `http://caffreyfans.top/IRmqtt/*.zip` 下在对应文件，如你要下载 `IRmqtt.v2.2.zip` 那么到 `http://caffreyfans.top/IRmqtt/IRmqtt.v2.2.zip` 也可以
 
 ## 特别感谢
 [Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持

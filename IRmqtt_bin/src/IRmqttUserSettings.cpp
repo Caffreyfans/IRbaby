@@ -8,6 +8,8 @@
 #define LOAD_SETTINGS_SUCCESS 1
 #define LOAD_SETTINGS_FAILED 0
 
+#define TMP_PATH "/bin/tmp"
+
 boolean userSettings::saveSettings(JsonObject& save_json) {
   
   if (save_json.containsKey("mqtt")) {
@@ -74,9 +76,10 @@ boolean userSettings::loadSettings() {
     }
     LOGLN("[load the user settings]:");
     save_json.prettyPrintTo(LOG_ESP_PORT);
+    LOGLN();
     
   } else {
-    DEBUGLN("/config is not exsits");
+    LOGLN("/config is not exsits");
   }
   cache.close();
   return FILE_FLAG;
@@ -90,11 +93,10 @@ IR_PIN userSettings::getIrPin() {
   return _ir_pin;
 }
 
-void userSettings::clear(String file_path) {
-  SPIFFS.remove(file_path);
-  LOGLN("SPIFFS format succeed, now to restart:");
-  for (int i = 3; i >= 0; i--) {
-    LOGF("time delay to restart: %d\n", i);
+void userSettings::clearTmp() {
+  Dir dir = SPIFFS.openDir(TMP_PATH);
+  while (dir.next()) {
+    DEBUGF("Try to remove %s\n", dir.fileName().c_str());
+    SPIFFS.remove(dir.fileName());
   }
-  ESP.restart();
 }

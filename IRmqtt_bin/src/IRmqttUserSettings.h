@@ -22,7 +22,7 @@ class userSettings {
     boolean loadSettings();
     MQTT getMQTT();
     IR_PIN getIrPin();
-    void clear(String file_path);
+    void clearTmp();
   private:
     MQTT _mqtt;
     IR_PIN _ir_pin;
