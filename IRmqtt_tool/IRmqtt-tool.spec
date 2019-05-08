@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['IRmqtt-tool.py'],
-             pathex=['D:\\ownCloud\\Study\\git\\IRmqtt\\IRmqtt_tool'],
+             pathex=['D:\\ownCloud\\Study\\git\\IRmqtt\\IRmqtt_toolIRmqtt_tool'],
              binaries=[],
              datas=[],
              hiddenimports=['os','sys','socket','json','time','threading','queue','requests'],
