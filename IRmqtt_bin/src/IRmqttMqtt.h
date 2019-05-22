@@ -18,7 +18,6 @@ class mqttClient {
     int _port = 1883;
     const char* _user = nullptr;
     const char* _password = nullptr;
-    boolean _mqtt_lock;
 };
 
 void callback(char* topic, byte* payload, unsigned int length);
