@@ -2,7 +2,7 @@
 #include "IRmqttGlobal.h"
 
 #define WAITTING_TIME 2000  // MQTT 连接等待时间
-#define HEARTBEAT_TIME 5000  // MQTT 重连间断时间
+#define HEARTBEAT_TIME 30000  // MQTT 重连间断时间
 
 mqttClient::mqttClient(WiFiClient& wifi_client){
   this->_wifi_client = &wifi_client;
@@ -47,7 +47,7 @@ void mqttClient::Loop() {
   if ((int)(system_now_time - system_setup_time) % HEARTBEAT_TIME == 0) {
     if (!_mqtt_client->connected()) {
       if (!Connect())
-        ESP.restart();
+        ESP.restart();  // 这只是暂时的选择，后期会改进重连的问题
     }
   }
   _mqtt_client->loop();
