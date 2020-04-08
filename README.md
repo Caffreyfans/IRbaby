@@ -28,7 +28,7 @@ IRbaby 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 
 ## 六步连接HomeAssistant
 ||||
--|-|-|-
+|---|---|---|---|
 |![发现设备](src/discovery.jpg)|![配置信息](src/device_setting.jpg)|![添加电器](src/select.jpg)|
 |![匹配电器](src/parse.jpg)|![已有电器](src/main.jpg)|![导出MQTT](src/mqtt.jpg)|
 ## 材料
