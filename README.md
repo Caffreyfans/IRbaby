@@ -17,7 +17,7 @@ IRbaby 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 ---
 
 ## 架构图
-![](https://irbaby.caffreyfans.top/src/architecture.svg)
+![](http://irbaby.caffreyfans.top/src/architecture.svg)
 ## 开始使用
 > 1. **下载 ESP8266 固件并烧写到设备。[IRbaby-firmware](https://github.com/Caffreyfans/IRbaby-firmware/releases)**
 > 2. **设备上电，移动端搜索连接到 `ESP**` 信号，并在浏览器中输入 `192.168.4.1` 对设备进行联网设置**
@@ -29,20 +29,20 @@ IRbaby 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 ## 六步连接HomeAssistant
 ||||
 |---|---|---|
-|![发现设备](https://irbaby.caffreyfans.top/src/discovery.jpg) |![配置信息](https://irbaby.caffreyfans.top/src/device_setting.jpg) |![添加电器](https://irbaby.caffreyfans.top/src/select.jpg) |
-|![匹配电器](https://irbaby.caffreyfans.top/src/parse.jpg) |![已有电器](https://irbaby.caffreyfans.top/src/main.jpg) |![导出MQTT](https://irbaby.caffreyfans.top/src/mqtt.jpg) |
+|![发现设备](http://irbaby.caffreyfans.top/src/discovery.jpg) |![配置信息](http://irbaby.caffreyfans.top/src/device_setting.jpg) |![添加电器](http://irbaby.caffreyfans.top/src/select.jpg) |
+|![匹配电器](http://irbaby.caffreyfans.top/src/parse.jpg) |![已有电器](http://irbaby.caffreyfans.top/src/main.jpg) |![导出MQTT](http://irbaby.caffreyfans.top/src/mqtt.jpg) |
 
 ## 材料
 ### 红外接收头可选(如果需要录码功能)
 |||
 |---|---|
-|![Nodemcu](https://irbaby.caffreyfans.top/src/nodemcu.jpg) | ![红外二级管](https://irbaby.caffreyfans.top/src/ir_led.jpg) |
-![红外接收头](https://irbaby.caffreyfans.top/src/ir_receiver.jpg) | ![三级管](https://irbaby.caffreyfans.top/src/transistor.jpg) |
+|![Nodemcu](http://irbaby.caffreyfans.top/src/nodemcu.jpg) | ![红外二级管](http://irbaby.caffreyfans.top/src/ir_led.jpg) |
+![红外接收头](http://irbaby.caffreyfans.top/src/ir_receiver.jpg) | ![三级管](http://irbaby.caffreyfans.top/src/transistor.jpg) |
 
 ## 关于连线
 ![红外连接图](https://camo.githubusercontent.com/8b4e10e4d829d417cc29a5d5a563f650fb4beabf/687474703a2f2f667269747a696e672e6f72672f6d656469612f667269747a696e672d7265706f2f70726f6a656374732f652f657370383236362d69722d7472616e736d69747465722f696d616765732f49522532305472616e736d69747465725f62622e706e67)
 
-![接线](https://irbaby.caffreyfans.top/src/connect.jpg)
+![接线](http://irbaby.caffreyfans.top/src/connect.jpg)
 
 `备注：红外二级管连接的时候也可以尝试不用三级管，直接连接。红外二级管长引脚接gpio，短脚接地。红外接收头的话就照着上图标示的那样与模块连接。红外接收头非必须，如果你不使用录码功能可忽略红外接收头。只要你有一个红外发射管和一块 ESP8266 和一部 Android 手机就可以尝试该项目。另外目前项目只支持空调控制，其他功能暂不支持，后续会添加。匹配客户端目前也只支持 Android，跨平台客户端也在后续添加中`
 
