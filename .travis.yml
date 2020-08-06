@@ -11,4 +11,4 @@ addons:
   - ssh.caffreyfans.top:222
 after_success:
 - chmod 600 ~/.ssh/id_rsa
-- ssh root@ssh.caffreyfans.top -p 222 'touch test.txt'
+- ssh root@ssh.caffreyfans.top -p 222 'python3 ~/IRbaby_deploy/deploy.py'
