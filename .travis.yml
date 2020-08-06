@@ -7,3 +7,8 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_9b2d7e19d83c_key -iv $encrypted_9b2d7e19d83c_iv
   -in id_rsa.enc -out ~\/.ssh/id_rsa -d
 addons:
+  ssh_know_hosts:
+  - ssh.caffreyfans.top:222
+after_success:
+- chmod 600 ~/.ssh/id_rsa
+- ssh root@ssh.caffreyfans.top -p 222 'touch test.txt'
