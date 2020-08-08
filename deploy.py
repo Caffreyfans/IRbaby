@@ -8,6 +8,7 @@ url = 'https://api.github.com/repos/Caffreyfans/IRbaby-firmware/releases/latest'
 response = requests.get(url)
 data = json.loads(response.text)
 download_url = data['assets'][0]['browser_download_url']
+tag_name = data["tag_name"]
 os.system('wget ' + download_url)
 os.system('unzip -d IRbaby_deploy_tmp IRbaby.zip')
 os.system('rm IRbaby.zip')
@@ -16,4 +17,7 @@ response = requests.get(url)
 data = json.loads(response.text)
 download_url = data['assets'][0]['browser_download_url']
 os.system('wget ' + download_url + ' -P IRbaby_deploy_tmp')
-os.system('cp -r IRbaby_deploy_tmp /var/www/irbaby/latest')
+os.system("rm -rf /var/www/irbaby/latest/")
+os.system('cp -r IRbaby_deploy_tmp/* /var/www/irbaby/latest')
+os.system('mkdir -p /var/www/irbaby' + tag_name)
+os.system('cp -r IRbaby_deploy_tmp/* /var/www/irbaby/' + tag_name)
