@@ -9,6 +9,14 @@ before_install:
 addons:
   ssh_know_hosts:
   - ssh.caffreyfans.top:222
-after_success:
-- chmod 600 ~/.ssh/id_rsa
-- ssh root@ssh.caffreyfans.top -p 222 'bash /root/IRbaby_deploy/start.sh'
+# after_success:
+# - chmod 600 ~/.ssh/id_rsa
+# - ssh root@ssh.caffreyfans.top -p 222 'bash /root/IRbaby_deploy/start.sh'
+deploy:
+  provider: script
+  script: 
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh root@ssh.caffreyfans.top -p 222 'bash /root/IRbaby_deploy/start.sh'
+  on:
+    tags: true
+    branch: master
