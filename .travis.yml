@@ -19,4 +19,3 @@ deploy:
     - ssh root@ssh.caffreyfans.top -p 222 'bash /root/IRbaby_deploy/start.sh'
   on:
     tags: true
-    branch: master
