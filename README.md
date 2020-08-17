@@ -1,7 +1,6 @@
 ﻿# IRbaby
 
-**IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库，提供数以万计的红外设备遥控编码。
-IRbaby 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就可以快速在 [HomeAssisant](https://www.home-assistant.io) 里的控制红外设备**。
+**IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库，提供数以万计的红外设备遥控编码。IRbaby 是一个 ESP8266 万能红外方案，配合硬件支持达到类似于市面上售卖的万能红外遥控。并且只需对其进行简单设置就可以快速部署在[HomeAssisant](https://www.home-assistant.io)**
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
@@ -10,14 +9,15 @@ IRbaby 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 ## 特点
 
 * Irext 强大红外码库
-* 支持基于 ESP8266 的模块
-* MQTT 支持（已对接 HomeAssistant 官方插件）
+* 基于 ESP8266 的模块
+* 提供 MQTT 控制接口（已对接 HomeAssistant 官方插件）
+* 提供 UDP 接口
 * 支持录码
 * 离线解码
 ---
 
 ## 架构图
-![](http://irbaby.caffreyfans.top/src/architecture.svg)
+![struction](http://irbaby.caffreyfans.top/src/architecture.svg)
 ## 开始使用
 > 1. **下载 ESP8266 固件并烧写到设备。[IRbaby-firmware](https://github.com/Caffreyfans/IRbaby-firmware/releases)**
 > 2. **设备上电，移动端搜索连接到 `ESP**` 信号，并在浏览器中输入 `192.168.4.1` 对设备进行联网设置**
@@ -43,14 +43,22 @@ IRbaby 帮助你使用 ESP8266 系列模块，只需对其进行简单设置就�
 
 ![接线](http://irbaby.caffreyfans.top/src/connect.jpg)
 
-`备注：红外二级管连接的时候也可以尝试不用三级管，直接连接。红外二级管长引脚接gpio，短脚接地。红外接收头的话就照着上图标示的那样与模块连接。红外接收头非必须，如果你不使用录码功能可忽略红外接收头。只要你有一个红外发射管和一块 ESP8266 和一部 Android 手机就可以尝试该项目。另外目前项目只支持空调控制，其他功能暂不支持，后续会添加。匹配客户端目前也只支持 Android，跨平台客户端也在后续添加中`
+`备注：红外二级管连接的时候也可以尝试不用三级管，直接连接。红外二级管长引脚接gpio，短脚接地。红外接收头的话就照着上图标示的那样与模块连接。红外接收头非必须，如果你不使用录码功能可忽略红外接收头。只要你有一个红外发射管和一块 ESP8266 和一部 Android 手机就可以尝试该项目。另外目前项目只支持空调控制，其他功能暂不支持，后续会添加。控制客户端目前也只支持 Android，跨平台客户端也在后续添加中`
 
 ## 声明
-固件中有一功能会让设备上报自己网络的 IP 到我检测设备的数量的一个地址。有的人可能会怀疑安全问题，我说一下为什么我要这样做。我通过设备的 MAC 去区分设备刷了该固件的数量，通过 IP 来判断是否为同一用户。就这么简单没有其他用途，至于说为什么要检测数量，那就是满足我的虚荣心了，当我知道越来越多的人用过我使用的固件这就够了。这也是为什么做开源项目的原因。我会提供两种固件版本，如果你仍担心隐私问题，请使用不上报 IP 的固件。
+固件中有一功能会让设备上报自己网络的 IP 到我的服务器，只做设备数登记，并无非法用途。如果您不喜欢，你可以自己编译固件把它注释掉。
 
 ## 附加下载地址
 如果你有在 **github releases** 下载文件过慢的问题，请在 [https://irbaby.caffreyfans.top](https://irbaby.caffreyfans.top) 下在对应文件
 
+## 支持
+如何本项目对你有所帮助，还请您点个 star 支持作者。如果码库对你有所帮助还请移步码库仓库里加星支持 [Irext](https://github.com/irext/irext/blob/master/README-cn.md)。
+
+## 捐赠
+|支付宝|微信|
+|---|---|
+|![donate-alipay](/src/donate-alipay.jpg)|![donate-wechat](/src/donate-wechat.jpg)|
+
 ## 特别感谢
-[Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持
+[Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持。
 <img src="http://irext.net/images/bobi_qr.png" align="left" height="160" width="160">
