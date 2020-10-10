@@ -58,7 +58,7 @@
 ## 捐赠
 |支付宝|微信|
 |---|---|
-|![donate-alipay](/src/donate-alipay.jpg)|![donate-wechat](/src/donate-wechat.jpg)|
+<img src="/src/donate-alipay.jpg" align="left" height="160" width="160">  |  <img src="/src/donate-wechat.jpg" align="left" height="160" width="160">
 
 ## 特别感谢
 [Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持。
