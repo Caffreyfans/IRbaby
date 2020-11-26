@@ -1,5 +1,6 @@
 ## IRbaby
 **([中文版](README.md))|([English](README_en.md))**
+
 **IRbaby use [IRext](https://irext.net/) private IR library, it provide tens of thousands of infrared device remote control codes. IRbaby is an ESP8266 complete IR control program, with hardware support to achieve a universal infrared remote control effect similar to that on the market. And it can be quickly deployed in HomeAssistant by simply setting it up.** 
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
