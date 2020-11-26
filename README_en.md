@@ -29,7 +29,7 @@
 
   > 1. **Download ESP8266 firmware and flash to device. [IRbaby-firmware](https://github.com/Caffreyfans/IRbaby-firmware/releases)**
   > 2. **Power on the device, search for the signal connected to the `ESP etc.` on the mobile phone, and enter `192.168.4.1` in the browser to set up the network**
-  > 3. **Download `Android` client and run it on phone, set the MQTT and IR receiver and transceiver pins of the device**
+  > 3. **Download `Android` client and run it on phone, set the MQTT and IR receiver and transceiver pins of the device**[IRbaby-android](https://github.com/Caffreyfans/IRbaby-android/releases)**
 
   ## Connect to Homeassistant
 
