@@ -1,5 +1,5 @@
+## IRbaby
 **([中文版](README.md))|([English](README_en.md))**
-
 **IRbaby use [IRext](https://irext.net/) private IR library, it provide tens of thousands of infrared device remote control codes. IRbaby is an ESP8266 complete IR control program, with hardware support to achieve a universal infrared remote control effect similar to that on the market. And it can be quickly deployed in HomeAssistant by simply setting it up.** 
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
@@ -11,15 +11,14 @@
 * IRext powerful IR libaray
 
 * support MQTT control api
+
 * support UDP control api
 
 * support record IR raw signal
 
 * offline decoding
 
-* Homeassistant mqtt auto discovery
-
-  
+* Homeassistant mqtt auto discovery  
 
   ## Architecture
 
@@ -35,15 +34,15 @@
 
 |                                                              |                                                              |                                                           |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------------------------------------- |
-| ![发现设备](http://irbaby.caffreyfans.top/src/discovery.jpg) | ![配置信息](http://irbaby.caffreyfans.top/src/device_setting.jpg) | ![添加电器](http://irbaby.caffreyfans.top/src/select.jpg) |
-| ![匹配电器](http://irbaby.caffreyfans.top/src/parse.jpg)     | ![已有电器](http://irbaby.caffreyfans.top/src/main.jpg)      | ![导出MQTT](http://irbaby.caffreyfans.top/src/mqtt.jpg)   |
+| ![discovery device](http://irbaby.caffreyfans.top/src/discovery.jpg) | ![setup device](http://irbaby.caffreyfans.top/src/device_setting.jpg) | ![add appliance](http://irbaby.caffreyfans.top/src/select.jpg) |
+| ![parse appliance](http://irbaby.caffreyfans.top/src/parse.jpg)     | ![already appliance](http://irbaby.caffreyfans.top/src/main.jpg)      | ![export config](http://irbaby.caffreyfans.top/src/mqtt.jpg)   |
 
 ## material
 ### IR receiver optional (if recording function is required)
 |                                                           |                                                             |
 | --------------------------------------------------------- | ----------------------------------------------------------- |
-| ![Nodemcu](http://irbaby.caffreyfans.top/src/nodemcu.jpg) | ![红外二级管](http://irbaby.caffreyfans.top/src/ir_led.jpg) |
-![红外接收头](http://irbaby.caffreyfans.top/src/ir_receiver.jpg) | ![三级管](http://irbaby.caffreyfans.top/src/transistor.jpg) |
+| ![Nodemcu](http://irbaby.caffreyfans.top/src/nodemcu.jpg) | ![IR](http://irbaby.caffreyfans.top/src/ir_led.jpg) |
+![IR receiver](http://irbaby.caffreyfans.top/src/ir_receiver.jpg) | ![Triode](http://irbaby.caffreyfans.top/src/transistor.jpg) |
 
 ## About line connection
 
