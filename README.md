@@ -53,9 +53,6 @@
 ## 附加下载地址
 如果你有在 **github releases** 下载文件过慢的问题，请在 [https://irbaby.caffreyfans.top](https://irbaby.caffreyfans.top) 下在对应文件
 
-## 支持
-如何本项目对你有所帮助，还请您点个 star 支持作者。如果码库对你有所帮助还请移步码库仓库里加星支持 [Irext](https://github.com/irext/irext/blob/master/README-cn.md)。
-
 ## 捐赠
 |支付宝|微信|
 |---|---|
@@ -63,4 +60,3 @@
 
 ## 特别感谢
 [Strawmanbobi](https://github.com/strawmanbobi) Irext开源库的作者，给予我技术和精神上的支持。
-<img src="http://irext.net/images/bobi_qr.png" align="left" height="160" width="160">
