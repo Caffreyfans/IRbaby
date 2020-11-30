@@ -1,5 +1,5 @@
 ﻿# IRbaby
-**([中文版](README.md))|([English](README_en.md))**
+**[[中文版](README.md)]|[[English](README_en.md)]**
 
 **IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库，提供数以万计的红外设备遥控编码。IRbaby 是一个 ESP8266 万能红外方案，配合硬件支持达到类似于市面上售卖的万能红外遥控。并且只需对其进行简单设置就可以快速部署在[HomeAssisant](https://www.home-assistant.io)**
 
