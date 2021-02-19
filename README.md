@@ -1,7 +1,7 @@
 ﻿# IRbaby
 **中文版 | [English](README_en.md)**
 
-IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库(**由于某些原因该仓库已关闭,相关网站已下架,但是码库服务仍然提供**)，提供数以万计的红外设备遥控编码。IRbaby 是一个 ESP8266 万能红外方案，配合硬件支持达到类似于市面上售卖的万能红外遥控。并且只需对其进行简单设置就可以快速部署在[HomeAssisant](https://www.home-assistant.io)
+IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库(**由于某些原因该仓库已关闭,相关网站已下架,但是码库服务仍然提供**)，提供数以万计的红外设备遥控编码。IRbaby 是一个 ESP8266 万能红外方案，配合硬件支持达到类似于市面上售卖的万能红外遥控。并且只需对其进行简单设置就可以快速部署在[HomeAssisant](https://www.home-assistant.io)。
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
@@ -29,6 +29,8 @@ IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库(**由
 > **IRbaby目前仍处于开发阶，目前的交互协议可能随时改变，不保证向后兼容，升级新版本时需要注意公告说明同时升级固件和客户端。**
 
 ## 六步连接HomeAssistant
+[效果演示视频](https://www.bilibili.com/video/BV13K411j7QD)
+
 ||||
 |---|---|---|
 |![发现设备](http://irbaby.caffreyfans.top/src/discovery.jpg) |![配置信息](http://irbaby.caffreyfans.top/src/device_setting.jpg) |![添加电器](http://irbaby.caffreyfans.top/src/select.jpg) |
