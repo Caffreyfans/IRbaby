@@ -29,7 +29,7 @@ IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库(**由
 > **IRbaby目前仍处于开发阶，目前的交互协议可能随时改变，不保证向后兼容，升级新版本时需要注意公告说明同时升级固件和客户端。**
 
 ## 六步连接HomeAssistant
-[效果演示视频](https://www.bilibili.com/video/BV13K411j7QD)
+**[效果演示视频](https://www.bilibili.com/video/BV13K411j7QD)**
 
 ||||
 |---|---|---|
