@@ -19,7 +19,7 @@ IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库(**由
 ---
 
 ## 架构图
-![struction](http://irbaby.caffreyfans.top/src/architecture.svg)
+![struction](/src/architecture.svg)
 ## 开始使用
 > 1. **下载 ESP8266 固件并烧写到设备。[IRbaby-firmware](https://github.com/Caffreyfans/IRbaby-firmware/releases)**
 > 2. **设备上电，移动端搜索连接到 `ESP**` 信号，并在浏览器中输入 `192.168.4.1` 对设备进行联网设置**
@@ -33,19 +33,19 @@ IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库(**由
 
 ||||
 |---|---|---|
-|![发现设备](http://irbaby.caffreyfans.top/src/discovery.jpg) |![配置信息](http://irbaby.caffreyfans.top/src/device_setting.jpg) |![添加电器](http://irbaby.caffreyfans.top/src/select.jpg) |
-|![匹配电器](http://irbaby.caffreyfans.top/src/parse.jpg) |![已有电器](http://irbaby.caffreyfans.top/src/main.jpg) |![导出MQTT](http://irbaby.caffreyfans.top/src/mqtt.jpg) |
+|![发现设备](/src/discovery.jpg) |![配置信息](/src/device_setting.jpg) |![添加电器](/src/select.jpg) |
+|![匹配电器](/src/parse.jpg) |![已有电器](/src/main.jpg) |![导出MQTT](/src/mqtt.jpg) |
 
 ## 材料
 ### 红外接收头可选(如果需要录码功能)
 |||
 |---|---|
-|![Nodemcu](http://irbaby.caffreyfans.top/src/nodemcu.jpg) | ![红外二级管](http://irbaby.caffreyfans.top/src/ir_led.jpg) |
-![红外接收头](http://irbaby.caffreyfans.top/src/ir_receiver.jpg) | ![三级管](http://irbaby.caffreyfans.top/src/transistor.jpg) |
+|![Nodemcu](/src/nodemcu.jpg) | ![红外二级管](/src/ir_led.jpg) |
+![红外接收头](/src/ir_receiver.jpg) | ![三级管](/src/transistor.jpg) |
 
 ## 关于连线
 
-![接线](http://irbaby.caffreyfans.top/src/connect.jpg)
+![接线](/src/connect.jpg)
 
 `备注：红外二级管连接的时候也可以尝试不用三级管，直接连接。红外二级管长引脚接gpio，短脚接地。红外接收头的话就照着上图标示的那样与模块连接。红外接收头非必须，如果你不使用录码功能可忽略红外接收头。只要你有一个红外发射管和一块 ESP8266 和一部 Android 手机就可以尝试该项目。另外目前项目只支持空调控制，其他功能暂不支持，后续会添加。控制客户端目前也只支持 Android，跨平台客户端也在后续添加中`
 
