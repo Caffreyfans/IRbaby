@@ -23,7 +23,7 @@
 
   ## Architecture
 
-  ![struction](http://irbaby.caffreyfans.top/src/architecture.svg)
+  ![struction](/src/architecture.svg)
 
   ## Setup
 
@@ -35,19 +35,19 @@
 
 |                                                              |                                                              |                                                           |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------------------------------------- |
-| ![discovery device](http://irbaby.caffreyfans.top/src/discovery.jpg) | ![setup device](http://irbaby.caffreyfans.top/src/device_setting.jpg) | ![add appliance](http://irbaby.caffreyfans.top/src/select.jpg) |
-| ![parse appliance](http://irbaby.caffreyfans.top/src/parse.jpg)     | ![already appliance](http://irbaby.caffreyfans.top/src/main.jpg)      | ![export config](http://irbaby.caffreyfans.top/src/mqtt.jpg)   |
+| ![discovery device](/src/discovery.jpg) | ![setup device](/src/device_setting.jpg) | ![add appliance](/src/select.jpg) |
+| ![parse appliance](/src/parse.jpg)     | ![already appliance](/src/main.jpg)      | ![export config](/src/mqtt.jpg)   |
 
 ## material
 ### IR receiver optional (if recording function is required)
 |                                                           |                                                             |
 | --------------------------------------------------------- | ----------------------------------------------------------- |
-| ![Nodemcu](http://irbaby.caffreyfans.top/src/nodemcu.jpg) | ![IR](http://irbaby.caffreyfans.top/src/ir_led.jpg) |
-![IR receiver](http://irbaby.caffreyfans.top/src/ir_receiver.jpg) | ![Triode](http://irbaby.caffreyfans.top/src/transistor.jpg) |
+| ![Nodemcu](/src/nodemcu.jpg) | ![IR](/src/ir_led.jpg) |
+![IR receiver](/src/ir_receiver.jpg) | ![Triode](/src/transistor.jpg) |
 
 ## About line connection
 
-![接线](http://irbaby.caffreyfans.top/src/connect.jpg)
+![接线](/src/connect.jpg)
 
 Remarks: When connecting the infrared diode, you can also try to connect directly without the tertiary tube. The long pin of the infrared diode is connected to GPIO, and the short pin is grounded. If the infrared receiver is connected to the module as shown on the icon. The infrared receiver is not necessary, if you do not use the code recording function, you can ignore the infrared receiver. As long as you have an infrared transmitter, an ESP8266 and an Android phone, you can try this project. In addition, the current project only supports air-conditioning control, other functions are temporarily not supported, and will be added later. The control client currently only supports Android, and the cross-platform client is also being added later
 
