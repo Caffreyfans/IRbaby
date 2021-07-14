@@ -16,6 +16,7 @@ IRbaby 使用 [IRext](https://github.com/irext/irext-core) 开源红外库(**由
 * 支持录码
 * 离线解码
 * HomeAssistant 自动发现
+* LED 工作指示灯
 ---
 
 ## 架构图

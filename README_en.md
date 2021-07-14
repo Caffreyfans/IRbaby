@@ -1,3 +1,9 @@
+<!--
+ * @Author: Caffreyfans
+ * @Date: 2021-07-14 21:13:42
+ * @LastEditTime: 2021-07-14 21:15:14
+ * @Description:  
+-->
 ## IRbaby
 **[中文版](README.md) | English**
 
@@ -10,16 +16,12 @@
 ## Features
 
 * IRext powerful IR libaray
-
 * support MQTT control api
-
 * support UDP control api
-
 * support record IR raw signal
-
 * offline decoding
-
 * Homeassistant mqtt auto discovery  
+* LED indicator light
 
   ## Architecture
 
